@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] private float playerSpeed = 5.0f;
-    [SerializeField] private float jumpForce = 20.0f;
+    [SerializeField] private float moveSpeed = 5.0f;    // 플레이어 이동 속도
+    [SerializeField] private float jumpForce = 20.0f;   // 플레이어가 점프하는 힘
 
-    private Rigidbody2D rigid;
-    private CapsuleCollider2D capsuleCollider;
+    private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
+    private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
 
-    [SerializeField]private bool isGround = false;
+    private Vector2 moveDir;    // 플레이어 이동 방향
+    private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
+    private float gravity = 9.81f;  // 중력
+    private bool isGround = false;  // 플레이어가 땅에 닿았는지 여부
+    private bool isJump = false;    // 플레이어가 점프중인지 아닌지
 
     private void Awake()
     {
@@ -25,30 +29,90 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        CheckGround();
         Move();
         Jump();
+        CheckGravity();
     }
 
-    private void Move()
+    /// <summary>
+    /// 플레이어가 땅에 닿았는지를 체크
+    /// </summary>
+    private void CheckGround()
     {
-        float direction = Input.GetAxisRaw("Horizontal") * playerSpeed * Time.deltaTime;
-        Vector2 pos = transform.position;
-        pos.x += direction;
-        transform.position = pos;
-    }
+        isGround = false;
 
-    private void Jump()
-    {
-        if(Physics2D.Raycast(transform.position, Vector2.down, capsuleCollider.size.y / 2 + 0.3f, LayerMask.GetMask("Ground")))
+        if(verticalVelocity > 0)
+        {
+            return;
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(capsuleCollider.bounds.center, Vector2.down, 
+            capsuleCollider.bounds.size.y / 2 + 0.1f, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(capsuleCollider.bounds.center, Vector2.down * (capsuleCollider.bounds.size.y / 2 + 0.1f), Color.red);
+
+        if(hit.transform != null)
         {
             isGround = true;
         }
-        Debug.DrawRay(transform.position, new Vector3(0, -capsuleCollider.size.y / 2 - 0.1f), Color.red);
+    }
+
+    /// <summary>
+    /// 플레이어 좌우이동
+    /// </summary>
+    private void Move()
+    {
+        moveDir.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
+        moveDir.y = rigid.velocity.y;
+        rigid.velocity = moveDir;
+        //float direction = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime;
+        //Vector2 pos = transform.position;
+        //pos.x += direction;
+        //transform.position = pos;
+    }
+
+    /// <summary>
+    /// 플레이어 점프
+    /// </summary>
+    private void Jump()
+    {
+        //if(Physics2D.Raycast(transform.position, Vector2.down, capsuleCollider.size.y / 2 + 0.3f, LayerMask.GetMask("Ground")))
+        //{
+        //    isGround = true;
+        //}
 
         if(Input.GetKeyDown(KeyCode.Space) && isGround == true)
         {
-            rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
+            //rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
+            isJump = true;
         }
+    }
+
+    private void CheckGravity()
+    {
+        // 플레이어가 땅에 닿지 않은 상태, 공중에 있다면
+        if(!isGround)
+        {
+            verticalVelocity -= gravity * Time.deltaTime;
+
+            if(verticalVelocity < -10f)
+            {
+                verticalVelocity = -10f;
+            }
+        }
+        else
+        {
+            verticalVelocity = 0;
+        }
+
+        // 플레이어가 점프 상태라면
+        if(isJump)
+        {
+            verticalVelocity = jumpForce;   // jumpForce만큼 수직으로 힘을 더함
+            isJump = false;     // 점프 상태 해제
+        }
+
+        rigid.velocity = new Vector2(rigid.velocity.x, verticalVelocity);
     }
 
     // 화면 비율 맞추기 코드

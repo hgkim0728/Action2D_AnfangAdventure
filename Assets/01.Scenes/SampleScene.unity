@@ -854,9 +854,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b646c18f6e9b741812ac5520ebf363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 5
-  jumpForce: 400
-  isGround: 0
+  moveSpeed: 5
+  jumpForce: 8
 --- !u!50 &1222713706
 Rigidbody2D:
   serializedVersion: 4
