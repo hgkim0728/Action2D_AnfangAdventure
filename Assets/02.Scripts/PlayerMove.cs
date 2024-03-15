@@ -1,25 +1,27 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5.0f;    // ÇÃ·¹ÀÌ¾î ÀÌµ¿ ¼Óµµ
-    [SerializeField] private float jumpForce = 20.0f;   // ÇÃ·¹ÀÌ¾î°¡ Á¡ÇÁÇÏ´Â Èû
+    [SerializeField] private float moveSpeed = 5.0f;    // í”Œë ˆì´ì–´ ì´ë™ ì†ë„
+    [SerializeField] private float jumpForce = 20.0f;   // í”Œë ˆì´ì–´ê°€ ì í”„í•˜ëŠ” í˜
 
-    private Rigidbody2D rigid;  // ÇÃ·¹ÀÌ¾î Rigidbody2D ÄÄÆ÷³ÍÆ®
-    private CapsuleCollider2D capsuleCollider;  // ÇÃ·¹ÀÌ¾î Ä¸½¶Äİ¶óÀÌ´õ ÄÄÆ÷³ÍÆ®
+    private Rigidbody2D rigid;  // í”Œë ˆì´ì–´ Rigidbody2D ì»´í¬ë„ŒíŠ¸
+    private CapsuleCollider2D capsuleCollider;  // í”Œë ˆì´ì–´ ìº¡ìŠì½œë¼ì´ë” ì»´í¬ë„ŒíŠ¸
+    private Animator anim;  // í”Œë ˆì´ì–´ ì• ë‹ˆë©”ì´í„° ì»´í¬ë„ŒíŠ¸
 
-    private Vector2 moveDir;    // ÇÃ·¹ÀÌ¾î ÀÌµ¿ ¹æÇâ
-    private float verticalVelocity;     // ÇÃ·¹ÀÌ¾î°¡ ¼öÁ÷À¸·Î ¹Ş´Â Èû
-    private float gravity = 9.81f;  // Áß·Â
-    private bool isGround = false;  // ÇÃ·¹ÀÌ¾î°¡ ¶¥¿¡ ´ê¾Ò´ÂÁö ¿©ºÎ
-    private bool isJump = false;    // ÇÃ·¹ÀÌ¾î°¡ Á¡ÇÁÁßÀÎÁö ¾Æ´ÑÁö
+    private Vector2 moveDir;    // í”Œë ˆì´ì–´ ì´ë™ ë°©í–¥
+    private float verticalVelocity;     // í”Œë ˆì´ì–´ê°€ ìˆ˜ì§ìœ¼ë¡œ ë°›ëŠ” í˜
+    private float gravity = 9.81f;  // ì¤‘ë ¥
+    private bool isGround = false;  // í”Œë ˆì´ì–´ê°€ ë•…ì— ë‹¿ì•˜ëŠ”ì§€ ì—¬ë¶€
+    private bool isJump = false;    // í”Œë ˆì´ì–´ê°€ ì í”„ì¤‘ì¸ì§€ ì•„ë‹Œì§€
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Start()
@@ -33,10 +35,11 @@ public class PlayerMove : MonoBehaviour
         Move();
         Jump();
         CheckGravity();
+        AnimationState();
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ¶¥¿¡ ´ê¾Ò´ÂÁö¸¦ Ã¼Å©
+    /// í”Œë ˆì´ì–´ê°€ ë•…ì— ë‹¿ì•˜ëŠ”ì§€ë¥¼ ì²´í¬
     /// </summary>
     private void CheckGround()
     {
@@ -58,21 +61,35 @@ public class PlayerMove : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î ÁÂ¿ìÀÌµ¿
+    /// í”Œë ˆì´ì–´ ì¢Œìš°ì´ë™
     /// </summary>
     private void Move()
     {
         moveDir.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
         moveDir.y = rigid.velocity.y;
         rigid.velocity = moveDir;
+        Turn();
+
         //float direction = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime;
         //Vector2 pos = transform.position;
         //pos.x += direction;
         //transform.position = pos;
     }
 
+    private void Turn()
+    {
+        if(moveDir.x > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if(moveDir.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
+
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î Á¡ÇÁ
+    /// í”Œë ˆì´ì–´ ì í”„
     /// </summary>
     private void Jump()
     {
@@ -90,7 +107,7 @@ public class PlayerMove : MonoBehaviour
 
     private void CheckGravity()
     {
-        // ÇÃ·¹ÀÌ¾î°¡ ¶¥¿¡ ´êÁö ¾ÊÀº »óÅÂ, °øÁß¿¡ ÀÖ´Ù¸é
+        // í”Œë ˆì´ì–´ê°€ ë•…ì— ë‹¿ì§€ ì•Šì€ ìƒíƒœ, ê³µì¤‘ì— ìˆë‹¤ë©´
         if(!isGround)
         {
             verticalVelocity -= gravity * Time.deltaTime;
@@ -105,17 +122,32 @@ public class PlayerMove : MonoBehaviour
             verticalVelocity = 0;
         }
 
-        // ÇÃ·¹ÀÌ¾î°¡ Á¡ÇÁ »óÅÂ¶ó¸é
+        // í”Œë ˆì´ì–´ê°€ ì í”„ ìƒíƒœë¼ë©´
         if(isJump)
         {
-            verticalVelocity = jumpForce;   // jumpForce¸¸Å­ ¼öÁ÷À¸·Î ÈûÀ» ´õÇÔ
-            isJump = false;     // Á¡ÇÁ »óÅÂ ÇØÁ¦
+            verticalVelocity = jumpForce;   // jumpForceë§Œí¼ ìˆ˜ì§ìœ¼ë¡œ í˜ì„ ë”í•¨
+            isJump = false;     // ì í”„ ìƒíƒœ í•´ì œ
         }
 
         rigid.velocity = new Vector2(rigid.velocity.x, verticalVelocity);
     }
 
-    // È­¸é ºñÀ² ¸ÂÃß±â ÄÚµå
+    private void AnimationState()
+    {
+        if (!isJump)
+        {
+            if (moveDir.x != 0)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
+        }
+    }
+
+    // í™”ë©´ ë¹„ìœ¨ ë§ì¶”ê¸° ì½”ë“œ
     private void S()
     {
         float targetRatio = 9f / 16f;
