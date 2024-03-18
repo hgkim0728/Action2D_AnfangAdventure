@@ -10,10 +10,11 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
     private Animator anim;  // 플레이어 애니메이터 컴포넌트
+    [SerializeField] private AnimationClip jumpAnimClip;
 
     private Vector2 moveDir;    // 플레이어 이동 방향
     private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
-    [SerializeField] private float gravity = 9.81f;  // 중력
+    private float gravity = 9.81f;  // 중력
     private bool isGround = false;  // 플레이어가 땅에 닿았는지 여부
     private bool isJump = false;    // 플레이어가 점프중인지 아닌지
 
@@ -57,6 +58,7 @@ public class PlayerMove : MonoBehaviour
         if(hit.transform != null)
         {
             isGround = true;
+            anim.SetBool("IsGround", true);
         }
     }
 
@@ -102,6 +104,7 @@ public class PlayerMove : MonoBehaviour
         {
             //rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
             isJump = true;
+            anim.SetBool("Jump", true);
         }
     }
 
@@ -144,6 +147,22 @@ public class PlayerMove : MonoBehaviour
             {
                 anim.SetBool("Run", false);
             }
+        }
+
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Anfang_Jump_Animation") == true
+            && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            anim.SetBool("Jump", false);
+        }
+
+        if(verticalVelocity < 0)
+        {
+            anim.SetBool("IsGround", false);
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            anim.SetTrigger("Attack");
         }
     }
 
