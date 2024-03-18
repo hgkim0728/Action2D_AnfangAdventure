@@ -6,15 +6,14 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5.0f;    // 플레이어 이동 속도
     [SerializeField] private float jumpForce = 20.0f;   // 플레이어가 점프하는 힘
+    [SerializeField] private float gravity = 9.81f;  // 중력
 
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
     private Animator anim;  // 플레이어 애니메이터 컴포넌트
-    [SerializeField] private AnimationClip jumpAnimClip;
 
     private Vector2 moveDir;    // 플레이어 이동 방향
     private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
-    private float gravity = 9.81f;  // 중력
     private bool isGround = false;  // 플레이어가 땅에 닿았는지 여부
     private bool isJump = false;    // 플레이어가 점프중인지 아닌지
 
@@ -78,6 +77,9 @@ public class PlayerMove : MonoBehaviour
         //transform.position = pos;
     }
 
+    /// <summary>
+    /// 캐릭터 좌우 이동에 따라 캐릭터 스프라이트 방향을 바꿔줌
+    /// </summary>
     private void Turn()
     {
         if(moveDir.x > 0)
@@ -100,6 +102,7 @@ public class PlayerMove : MonoBehaviour
         //    isGround = true;
         //}
 
+        // 땅에 닿은 상태에서 스페이스 키를 누르면
         if(Input.GetKeyDown(KeyCode.Space) && isGround == true)
         {
             //rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
@@ -135,8 +138,14 @@ public class PlayerMove : MonoBehaviour
         rigid.velocity = new Vector2(rigid.velocity.x, verticalVelocity);
     }
 
+    /// <summary>
+    /// 애니메이션 상태 변경
+    /// 여기서만 변경되는 건 아님
+    /// </summary>
     private void AnimationState()
     {
+        anim.SetBool("Attack", false);
+
         if (!isJump)
         {
             if (moveDir.x != 0)
@@ -162,7 +171,7 @@ public class PlayerMove : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            anim.SetTrigger("Attack");
+            anim.SetBool("Attack", true);
         }
     }
 

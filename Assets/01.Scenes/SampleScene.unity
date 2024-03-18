@@ -876,8 +876,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 8
-  gravity: 9.81
+  jumpForce: 10
+  jumpAnimClip: {fileID: 0}
+  gravity: 15
 --- !u!50 &1205218613
 Rigidbody2D:
   serializedVersion: 4
