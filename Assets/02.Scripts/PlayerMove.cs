@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private Animator anim;  // 플레이어 애니메이터 컴포넌트
 
     private Vector2 moveDir;    // 플레이어 이동 방향
+    private int jumpCount = 0;
     private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
     private bool isGround = false;  // 플레이어가 땅에 닿았는지 여부
     private bool isJump = false;    // 플레이어가 점프중인지 아닌지
@@ -103,11 +104,20 @@ public class PlayerMove : MonoBehaviour
         //}
 
         // 땅에 닿은 상태에서 스페이스 키를 누르면
-        if(Input.GetKeyDown(KeyCode.Space) && isGround == true)
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            //rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
-            isJump = true;
-            anim.SetBool("Jump", true);
+            if (isGround == true || jumpCount == 1)
+            {
+                //rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
+                isJump = true;
+
+                if (jumpCount != 1)
+                {
+                    anim.SetBool("Jump", true);
+                }
+
+                jumpCount++;
+            }
         }
     }
 
@@ -131,8 +141,14 @@ public class PlayerMove : MonoBehaviour
         // 플레이어가 점프 상태라면
         if(isJump)
         {
+            verticalVelocity = 0;
             verticalVelocity = jumpForce;   // jumpForce만큼 수직으로 힘을 더함
             isJump = false;     // 점프 상태 해제
+
+            if(jumpCount == 2)
+            {
+                jumpCount = 0;
+            }
         }
 
         rigid.velocity = new Vector2(rigid.velocity.x, verticalVelocity);
