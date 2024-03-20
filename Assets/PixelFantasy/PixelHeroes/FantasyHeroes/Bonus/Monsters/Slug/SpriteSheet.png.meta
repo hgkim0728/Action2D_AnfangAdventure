@@ -77,11 +77,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -104,7 +105,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 15
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -120,6 +121,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
@@ -132,6 +134,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -144,6 +147,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -156,6 +160,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -168,6 +173,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -180,6 +186,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -192,6 +199,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -204,6 +212,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -213,10 +222,10 @@ TextureImporter:
       name: Idle_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 128
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,10 +243,10 @@ TextureImporter:
       name: Idle_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 48
         y: 128
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -255,10 +264,10 @@ TextureImporter:
       name: Ready_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 96
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,10 +285,10 @@ TextureImporter:
       name: Ready_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 48
         y: 96
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -297,10 +306,10 @@ TextureImporter:
       name: Run_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 64
-        width: 40
-        height: 32
+        width: 16
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -318,10 +327,10 @@ TextureImporter:
       name: Run_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 50
         y: 64
-        width: 40
-        height: 32
+        width: 16
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -339,10 +348,10 @@ TextureImporter:
       name: Run_2
       rect:
         serializedVersion: 2
-        x: 80
+        x: 90
         y: 64
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -360,10 +369,10 @@ TextureImporter:
       name: Run_3
       rect:
         serializedVersion: 2
-        x: 120
+        x: 129
         y: 64
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -381,10 +390,10 @@ TextureImporter:
       name: Attack_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 32
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -402,10 +411,10 @@ TextureImporter:
       name: Attack_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 47
         y: 32
-        width: 40
-        height: 32
+        width: 16
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -423,10 +432,10 @@ TextureImporter:
       name: Attack_2
       rect:
         serializedVersion: 2
-        x: 80
+        x: 93
         y: 32
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -444,10 +453,10 @@ TextureImporter:
       name: Attack_3
       rect:
         serializedVersion: 2
-        x: 120
+        x: 128
         y: 32
-        width: 40
-        height: 32
+        width: 16
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -465,10 +474,10 @@ TextureImporter:
       name: Death_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 0
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -486,10 +495,10 @@ TextureImporter:
       name: Death_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 48
         y: 0
-        width: 40
-        height: 32
+        width: 15
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -507,10 +516,10 @@ TextureImporter:
       name: Death_2
       rect:
         serializedVersion: 2
-        x: 80
+        x: 88
         y: 0
-        width: 40
-        height: 32
+        width: 16
+        height: 15
       alignment: 9
       pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -550,9 +559,8 @@ TextureImporter:
       Run_1: -2274363484027164459
       Run_2: 8284087734974297348
       Run_3: 5304202850863732263
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

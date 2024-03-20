@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5.0f;    // 플레이어 이동 속도
-    [SerializeField] private float jumpForce = 20.0f;   // 플레이어가 점프하는 힘
-    [SerializeField] private float gravity = 9.81f;  // 중력
+    [SerializeField, Tooltip("플레이어 이동 속도")] private float moveSpeed = 5.0f;
+    [SerializeField, Tooltip("플레이어가 점프하는 힘")] private float jumpForce = 20.0f;
+    [SerializeField, Tooltip("점프한 플레이어에게 적용될 중력")] private float gravity = 9.81f;
+
+    [Space]
+    [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<GameObject> listAttackRange = new List<GameObject>();
 
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
     private Animator anim;  // 플레이어 애니메이터 컴포넌트
 
+    private GameObject curAttackRange;  // 플레이어의 현재 공격 범위
     private Vector2 moveDir;    // 플레이어 이동 방향
     private int jumpCount = 0;
     private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
@@ -27,7 +31,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        
+        curAttackRange = listAttackRange[0];
     }
 
     void Update()
@@ -160,17 +164,19 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void AnimationState()
     {
-        anim.SetBool("Attack", false);
+        anim.SetBool("Attack", false);  // 애니메이터의 Attack 값을 false로
 
+        // 점프 상태가 아니고
         if (!isJump)
         {
+            // 방향키를 누르는 중이라면
             if (moveDir.x != 0)
             {
-                anim.SetBool("Run", true);
+                anim.SetBool("Run", true);  // 애니메이터의 Run을 true로
             }
-            else
+            else// 방향키를 누르고 있지 않다면
             {
-                anim.SetBool("Run", false);
+                anim.SetBool("Run", false); // 애니메이터의 Run을 false로
             }
         }
 
@@ -178,6 +184,11 @@ public class PlayerMove : MonoBehaviour
             && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             anim.SetBool("Jump", false);
+        }
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Anfang_Jump_Animation") == true
+            && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            curAttackRange.SetActive(false);
         }
 
         if(verticalVelocity < 0)
@@ -188,6 +199,7 @@ public class PlayerMove : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
             anim.SetBool("Attack", true);
+            curAttackRange.SetActive(true);
         }
     }
 
