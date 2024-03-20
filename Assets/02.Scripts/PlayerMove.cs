@@ -48,21 +48,23 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void CheckGround()
     {
-        isGround = false;
+        isGround = false;   // 기본적으로 false로
 
-        if(verticalVelocity > 0)
+        if(verticalVelocity > 0)    // 점프해서 위로 올라가는 중이면 리턴
         {
             return;
         }
 
+        // 레이캐스트로 플레이어 캐릭터가 땅에 닿은 상태인지 아닌지를 판단
         RaycastHit2D hit = Physics2D.Raycast(capsuleCollider.bounds.center, Vector2.down, 
             capsuleCollider.bounds.size.y / 2 + 0.1f, LayerMask.GetMask("Ground"));
         Debug.DrawRay(capsuleCollider.bounds.center, Vector2.down * (capsuleCollider.bounds.size.y / 2 + 0.1f), Color.red);
 
+        // 플레이어가 땅에 닿은 상태라면
         if(hit.transform != null)
         {
-            isGround = true;
-            anim.SetBool("IsGround", true);
+            isGround = true;    // isGround를 true로
+            anim.SetBool("IsGround", true); // 애니메이터의 IsGround도 true로
         }
     }
 
@@ -87,13 +89,14 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void Turn()
     {
+        // 플레이어가 오른쪽으로 이동중이라면
         if(moveDir.x > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(1, 1, 1);    // 캐릭터 스프라이트 방향을 오른쪽으로
         }
-        else if(moveDir.x < 0)
+        else if(moveDir.x < 0)// 플레이어가 왼쪽으로 이동중이라면
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);   // 캐릭터 스프라이트 방향을 왼쪽으로
         }
     }
 
@@ -107,20 +110,22 @@ public class PlayerMove : MonoBehaviour
         //    isGround = true;
         //}
 
-        // 땅에 닿은 상태에서 스페이스 키를 누르면
+        // 스페이스 키를 누르면
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            // 땅에 닿은 상태 또는 한 번 점프한 상태라면
             if (isGround == true || jumpCount == 1)
             {
                 //rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
-                isJump = true;
+                isJump = true;  // 점프 상태로 변경
 
+                // 첫 번째 점프라면 점프 애니메이션 재생
                 if (jumpCount != 1)
                 {
                     anim.SetBool("Jump", true);
                 }
 
-                jumpCount++;
+                jumpCount++;    // jumpCount 증가
             }
         }
     }
@@ -185,11 +190,6 @@ public class PlayerMove : MonoBehaviour
         {
             anim.SetBool("Jump", false);
         }
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Anfang_Jump_Animation") == true
-            && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-        {
-            curAttackRange.SetActive(false);
-        }
 
         if(verticalVelocity < 0)
         {
@@ -201,6 +201,11 @@ public class PlayerMove : MonoBehaviour
             anim.SetBool("Attack", true);
             curAttackRange.SetActive(true);
         }
+    }
+
+    public void AttackRangeOff()
+    {
+        curAttackRange.SetActive(false);
     }
 
     // 화면 비율 맞추기 코드
