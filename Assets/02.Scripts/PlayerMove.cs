@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    enum PlayerEquip
+    {
+        Sword,
+        Wand,
+        Bow
+    }
+
     [SerializeField, Tooltip("플레이어 이동 속도")] private float moveSpeed = 5.0f;
     [SerializeField, Tooltip("플레이어가 점프하는 힘")] private float jumpForce = 20.0f;
     [SerializeField, Tooltip("점프한 플레이어에게 적용될 중력")] private float gravity = 9.81f;
@@ -15,6 +22,7 @@ public class PlayerMove : MonoBehaviour
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
     private Animator anim;  // 플레이어 애니메이터 컴포넌트
 
+    private PlayerEquip playerEquip;
     private GameObject curAttackRange;  // 플레이어의 현재 공격 범위
     private Vector2 moveDir;    // 플레이어 이동 방향
     private int jumpCount = 0;
@@ -110,8 +118,8 @@ public class PlayerMove : MonoBehaviour
         //    isGround = true;
         //}
 
-        // 스페이스 키를 누르면
-        if(Input.GetKeyDown(KeyCode.Space))
+        // Z 키를 누르면
+        if(Input.GetKeyDown(KeyCode.Z))
         {
             // 땅에 닿은 상태 또는 한 번 점프한 상태라면
             if (isGround == true || jumpCount == 1)
@@ -199,7 +207,17 @@ public class PlayerMove : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
             anim.SetBool("Attack", true);
-            curAttackRange.SetActive(true);
+            Attack();
+        }
+    }
+
+    private void Attack()
+    {
+        switch(playerEquip)
+        {
+            case PlayerEquip.Sword:
+                curAttackRange.SetActive(true);
+                break;
         }
     }
 
