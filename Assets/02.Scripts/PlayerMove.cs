@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    // 플레이어 장비
     enum PlayerEquip
     {
         Sword,
@@ -22,10 +23,10 @@ public class PlayerMove : MonoBehaviour
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
     private Animator anim;  // 플레이어 애니메이터 컴포넌트
 
-    private PlayerEquip playerEquip;
+    private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
     private GameObject curAttackRange;  // 플레이어의 현재 공격 범위
     private Vector2 moveDir;    // 플레이어 이동 방향
-    private int jumpCount = 0;
+    private int jumpCount = 0;  // 점프 횟수, 무한 점프 방지용
     private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
     private bool isGround = false;  // 플레이어가 땅에 닿았는지 여부
     private bool isJump = false;    // 플레이어가 점프중인지 아닌지
@@ -64,6 +65,8 @@ public class PlayerMove : MonoBehaviour
         }
 
         // 레이캐스트로 플레이어 캐릭터가 땅에 닿은 상태인지 아닌지를 판단
+        // 플레이어의 콜라이더의 중심에서 플레이어 콜라이더의 절반 높이에 0.1을 더한 값만큼 아래로 레이캐스트
+        // 레이어가 Ground일 때만 hit에 담김
         RaycastHit2D hit = Physics2D.Raycast(capsuleCollider.bounds.center, Vector2.down, 
             capsuleCollider.bounds.size.y / 2 + 0.1f, LayerMask.GetMask("Ground"));
         Debug.DrawRay(capsuleCollider.bounds.center, Vector2.down * (capsuleCollider.bounds.size.y / 2 + 0.1f), Color.red);
@@ -143,8 +146,10 @@ public class PlayerMove : MonoBehaviour
         // 플레이어가 땅에 닿지 않은 상태, 공중에 있다면
         if(!isGround)
         {
+            // 시간이 지날수록 아래로 향하는 힘 증가
             verticalVelocity -= gravity * Time.deltaTime;
 
+            // 떨어지는 속도 제한
             if(verticalVelocity < -10f)
             {
                 verticalVelocity = -10f;
@@ -152,7 +157,7 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            verticalVelocity = 0;
+            verticalVelocity = 0;   // 공중이 아니라면 아래로 향하는 힘이 필요없음
         }
 
         // 플레이어가 점프 상태라면
@@ -162,12 +167,14 @@ public class PlayerMove : MonoBehaviour
             verticalVelocity = jumpForce;   // jumpForce만큼 수직으로 힘을 더함
             isJump = false;     // 점프 상태 해제
 
+            // 이번이 두 번째 점프라면 jumpCount를 0으로
             if(jumpCount == 2)
             {
                 jumpCount = 0;
             }
         }
 
+        // 위에서 조건에 따라 적용한 verticalVelocity 값을 리지드바디에 적용
         rigid.velocity = new Vector2(rigid.velocity.x, verticalVelocity);
     }
 
@@ -193,37 +200,48 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
+        // 현재 재생되는 애니메이션이 점프 애니메이션이고 애니메이션 재생이 끝났다면
         if(anim.GetCurrentAnimatorStateInfo(0).IsName("Anfang_Jump_Animation") == true
             && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
-            anim.SetBool("Jump", false);
+            anim.SetBool("Jump", false);    // 애니메이터의 Jump를 false로
         }
 
+        // 플레이어가 낙하중이라면
         if(verticalVelocity < 0)
         {
-            anim.SetBool("IsGround", false);
+            anim.SetBool("IsGround", false);    // 애니메이터의 IsGround를 false로
         }
 
+        // 공격 키를 누르면
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            anim.SetBool("Attack", true);
+            anim.SetBool("Attack", true);   // 애니메이터의 어택을 true로
             Attack();
         }
     }
 
+    /// <summary>
+    /// 플레이어가 현재 장착한 장비에 따라 공격을 실행
+    /// </summary>
     private void Attack()
     {
         switch(playerEquip)
         {
+            // 현재 장착한 장비가 검이라면
             case PlayerEquip.Sword:
-                curAttackRange.SetActive(true);
+                curAttackRange.SetActive(true); // 공격 범위 오브젝트 활성화
                 break;
         }
     }
 
+    /// <summary>
+    /// 공격 범위 비활성화
+    /// 공격 애니메이션 끝에 이벤트
+    /// </summary>
     public void AttackRangeOff()
     {
-        curAttackRange.SetActive(false);
+        curAttackRange.SetActive(false);    // 공격 범위 비활성화
     }
 
     // 화면 비율 맞추기 코드

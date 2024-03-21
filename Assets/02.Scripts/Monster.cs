@@ -17,6 +17,7 @@ public class Monster : MonoBehaviour
     [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] private float hitImpulse = 3.0f;
 
     private Rigidbody2D rigid;
+    private BoxCollider2D monsterCol;
     private Animator anim;
 
     private MonsterState monsterState = MonsterState.Idle;
@@ -24,6 +25,7 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        monsterCol = GetComponent<BoxCollider2D>();
     }
 
     void Start()
@@ -40,7 +42,7 @@ public class Monster : MonoBehaviour
 
             if(dir > 0)
             {
-                rigid.AddForce(Vector2.right * hitImpulse, ForceMode2D.Impulse);
+                rigid.AddForce(Vector2.right * hitImpulse, ForceMode2D.Force);
             }
             else if(dir < 0)
             {
