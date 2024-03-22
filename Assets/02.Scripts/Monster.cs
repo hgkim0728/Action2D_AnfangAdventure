@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +13,8 @@ public class Monster : MonoBehaviour
         Die
     }
 
-    [SerializeField, Tooltip("°ø°İ ÄğÅ¸ÀÓ")] private float attackCoolTime = 1.0f;
-    [SerializeField, Tooltip("ÇÇ°İ´çÇßÀ» ¶§ ³¯¾Æ°¥ °Å¸®")] private float hitImpulse = 3.0f;
+    [SerializeField, Tooltip("ê³µê²© ì¿¨íƒ€ì„")] private float attackCoolTime = 1.0f;
+    [SerializeField, Tooltip("í”¼ê²©ë‹¹í–ˆì„ ë•Œ ë‚ ì•„ê°ˆ ê±°ë¦¬")] private float hitImpulse = 3.0f;
 
     private Rigidbody2D rigid;
     private BoxCollider2D monsterCol;
@@ -33,28 +33,23 @@ public class Monster : MonoBehaviour
         anim = transform.GetComponentInChildren<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(monsterState != MonsterState.Die && collision.tag == "PlayerAttack")
-        {
-            monsterState = MonsterState.Hit;
-            float dir = transform.position.x - collision.transform.position.x;
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if(monsterState != MonsterState.Die && collision.tag == "PlayerAttack")
+    //    {
+    //        monsterState = MonsterState.Hit;
+    //        float dir = transform.position.x - collision.transform.position.x;
 
-            if(dir > 0)
-            {
-                rigid.AddForce(Vector2.right * hitImpulse, ForceMode2D.Force);
-            }
-            else if(dir < 0)
-            {
-                rigid.AddForce(Vector2.left * hitImpulse, ForceMode2D.Impulse);
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Debug.Log("½½¶óÀÓ ¾ÆÇÁ´Ù");
-    }
+    //        if(dir > 0)
+    //        {
+    //            rigid.AddForce(Vector2.right * hitImpulse, ForceMode2D.Force);
+    //        }
+    //        else if(dir < 0)
+    //        {
+    //            rigid.AddForce(Vector2.left * hitImpulse, ForceMode2D.Impulse);
+    //        }
+    //    }
+    //}
 
     void Update()
     {
@@ -88,5 +83,10 @@ public class Monster : MonoBehaviour
     {
         anim.SetBool("Hit", false);
         monsterState = MonsterState.Attack;
+    }
+
+    public void MonsterHit(float _damage)
+    {
+
     }
 }

@@ -17,14 +17,15 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("점프한 플레이어에게 적용될 중력")] private float gravity = 9.81f;
 
     [Space]
-    [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<GameObject> listAttackRange = new List<GameObject>();
+    [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
 
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
     private Animator anim;  // 플레이어 애니메이터 컴포넌트
 
     private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
-    private GameObject curAttackRange;  // 플레이어의 현재 공격 범위
+    private float curAttackRange;  // 플레이어의 현재 공격 범위
+
     private Vector2 moveDir;    // 플레이어 이동 방향
     private int jumpCount = 0;  // 점프 횟수, 무한 점프 방지용
     private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
@@ -67,12 +68,14 @@ public class PlayerMove : MonoBehaviour
         // 레이캐스트로 플레이어 캐릭터가 땅에 닿은 상태인지 아닌지를 판단
         // 플레이어의 콜라이더의 중심에서 플레이어 콜라이더의 절반 높이에 0.1을 더한 값만큼 아래로 레이캐스트
         // 레이어가 Ground일 때만 hit에 담김
-        RaycastHit2D hit = Physics2D.Raycast(capsuleCollider.bounds.center, Vector2.down, 
-            capsuleCollider.bounds.size.y / 2 + 0.1f, LayerMask.GetMask("Ground"));
-        Debug.DrawRay(capsuleCollider.bounds.center, Vector2.down * (capsuleCollider.bounds.size.y / 2 + 0.1f), Color.red);
+        //RaycastHit2D hit = Physics2D.Raycast(capsuleCollider.bounds.center, Vector2.down,
+        //    capsuleCollider.bounds.size.y / 2 + 0.1f, LayerMask.GetMask("Ground"));
+        RaycastHit2D hit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 
+            0f, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+        //Debug.DrawRay(capsuleCollider.bounds.center, Vector2.down * (capsuleCollider.bounds.size.y / 2 + 0.1f), Color.red);
 
         // 플레이어가 땅에 닿은 상태라면
-        if(hit.transform != null)
+        if (hit.transform != null)
         {
             isGround = true;    // isGround를 true로
             anim.SetBool("IsGround", true); // 애니메이터의 IsGround도 true로
@@ -230,8 +233,22 @@ public class PlayerMove : MonoBehaviour
         {
             // 현재 장착한 장비가 검이라면
             case PlayerEquip.Sword:
-                curAttackRange.SetActive(true); // 공격 범위 오브젝트 활성화
+                SwordAttack();
                 break;
+        }
+    }
+
+    private void SwordAttack()
+    {
+        // 작동 확인용 나중에 고쳐야 함
+        RaycastHit2D hit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size,
+            0f, Vector2.right * transform.localScale.x, curAttackRange * transform.localScale.x,
+            LayerMask.GetMask("Monster"));
+
+        // 피격당한 몬스터에게서 피격 함수 호출
+        if(hit.transform != null)
+        {
+
         }
     }
 
@@ -239,10 +256,10 @@ public class PlayerMove : MonoBehaviour
     /// 공격 범위 비활성화
     /// 공격 애니메이션 끝에 이벤트
     /// </summary>
-    public void AttackRangeOff()
-    {
-        curAttackRange.SetActive(false);    // 공격 범위 비활성화
-    }
+    //public void AttackRangeOff()
+    //{
+    //    curAttackRange.SetActive(false);    // 공격 범위 비활성화
+    //}
 
     // 화면 비율 맞추기 코드
     private void S()
