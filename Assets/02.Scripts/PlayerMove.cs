@@ -12,25 +12,28 @@ public class PlayerMove : MonoBehaviour
         Bow
     }
 
+    // 플레이어 이동
     [SerializeField, Tooltip("플레이어 이동 속도")] private float moveSpeed = 5.0f;
     [SerializeField, Tooltip("플레이어가 점프하는 힘")] private float jumpForce = 20.0f;
     [SerializeField, Tooltip("점프한 플레이어에게 적용될 중력")] private float gravity = 9.81f;
-
-    [Space]
-    [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
-
-    private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
-    private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
-    private Animator anim;  // 플레이어 애니메이터 컴포넌트
-
-    private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
-    private float curAttackRange;  // 플레이어의 현재 공격 범위
-
     private Vector2 moveDir;    // 플레이어 이동 방향
     private int jumpCount = 0;  // 점프 횟수, 무한 점프 방지용
     private float verticalVelocity;     // 플레이어가 수직으로 받는 힘
     private bool isGround = false;  // 플레이어가 땅에 닿았는지 여부
     private bool isJump = false;    // 플레이어가 점프중인지 아닌지
+
+    // 전투
+    [Space]
+    [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
+    [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
+    [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playeratk = 1;
+    private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
+    private float curAttackRange;  // 플레이어의 현재 공격 범위
+
+    // 컴포넌트
+    private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
+    private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
+    private Animator anim;  // 플레이어 애니메이터 컴포넌트
 
     private void Awake()
     {

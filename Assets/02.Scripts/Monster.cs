@@ -13,9 +13,15 @@ public class Monster : MonoBehaviour
         Die
     }
 
+    // 몬스터 이동
+    [SerializeField, Tooltip("몬스터 이동속도")] private float moveSpeed = 5.0f;
+
+    // 전투
+    [Space]
     [SerializeField, Tooltip("공격 쿨타임")] private float attackCoolTime = 1.0f;
     [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] private float hitImpulse = 3.0f;
 
+    // 컴포넌트
     private Rigidbody2D rigid;
     private BoxCollider2D monsterCol;
     private Animator anim;
