@@ -18,8 +18,17 @@ public class Monster : MonoBehaviour
 
     // 전투
     [Space]
+    [SerializeField, Tooltip("몬스터 공격 범위")] private float monsterAttackRange = 1f;
+    [SerializeField, Tooltip("몬스터 체력")] private int monsterHp = 2;
+    [SerializeField, Tooltip("몬스터 공격력")] private int monsterAtk = 1;
     [SerializeField, Tooltip("공격 쿨타임")] private float attackCoolTime = 1.0f;
     [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] private float hitImpulse = 3.0f;
+
+    // 상태 변경 시간
+    [Space]
+    [SerializeField, Tooltip("상태 변경 최소 시간")] private float minStateChangeTime = 2.0f;
+    [SerializeField, Tooltip("상태 변경 최대 시간")] private float maxStateChangeTime = 4.0f;
+    private float stateChangeTime;
 
     // 컴포넌트
     private Rigidbody2D rigid;
@@ -31,6 +40,7 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
     }
 
     void Start()

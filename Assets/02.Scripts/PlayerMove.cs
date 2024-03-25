@@ -68,7 +68,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        // 레이캐스트로 플레이어 캐릭터가 땅에 닿은 상태인지 아닌지를 판단
+        // 박스캐스트로 플레이어 캐릭터가 땅에 닿은 상태인지 아닌지를 판단
         // 플레이어의 콜라이더의 중심에서 플레이어 콜라이더의 절반 높이에 0.1을 더한 값만큼 아래로 레이캐스트
         // 레이어가 Ground일 때만 hit에 담김
         //RaycastHit2D hit = Physics2D.Raycast(capsuleCollider.bounds.center, Vector2.down,
