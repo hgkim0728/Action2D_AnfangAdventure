@@ -31,12 +31,12 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        monsterCol = GetComponent<BoxCollider2D>();
     }
 
     void Start()
     {
         anim = transform.GetComponentInChildren<Animator>();
+        monsterCol = transform.GetComponentInChildren<BoxCollider2D>();
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)
@@ -93,6 +93,6 @@ public class Monster : MonoBehaviour
 
     public void MonsterHit(float _damage)
     {
-
+        Debug.Log("Ouch");
     }
 }

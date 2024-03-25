@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
     [Space]
     [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
     [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
-    [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playeratk = 1;
+    [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
     private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
     private float curAttackRange;  // 플레이어의 현재 공격 범위
 
@@ -245,13 +245,13 @@ public class PlayerMove : MonoBehaviour
     {
         // 작동 확인용 나중에 고쳐야 함
         RaycastHit2D hit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size,
-            0f, Vector2.right * transform.localScale.x, curAttackRange * transform.localScale.x,
+            90f, Vector2.right * transform.localScale.x, curAttackRange * transform.localScale.x,
             LayerMask.GetMask("Monster"));
 
         // 피격당한 몬스터에게서 피격 함수 호출
         if(hit.transform != null)
         {
-
+            hit.transform.gameObject.GetComponent<Monster>().MonsterHit(playerAtk);
         }
     }
 
