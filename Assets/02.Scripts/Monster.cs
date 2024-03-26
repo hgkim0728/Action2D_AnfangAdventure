@@ -69,10 +69,10 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        MonsterStateControll();
+        MonsterStateCheck();
     }
 
-    private void MonsterStateControll()
+    private void MonsterStateCheck()
     {
         switch(monsterState)
         {
