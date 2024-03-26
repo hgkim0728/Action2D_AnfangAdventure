@@ -1454,8 +1454,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  monsterAttackRange: 1
+  monsterHp: 2
+  monsterAtk: 1
   attackCoolTime: 1
   hitImpulse: 2
+  minStateChangeTime: 2
+  maxStateChangeTime: 4
 --- !u!1 &1795039932
 GameObject:
   m_ObjectHideFlags: 3
