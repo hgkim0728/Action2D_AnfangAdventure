@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Anfang_Fall_Animation
+  m_Name: ShortDagger_Idle_Animation
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 6054277451648750542, guid: 73bcea19edd61214da337feabed90c6d, type: 3}
+      value: {fileID: -2978808618200810919, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
+    - time: 0.5
+      value: {fileID: 7683567802946276634, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
+    - time: 1
+      value: {fileID: 7683567802946276634, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,13 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 6054277451648750542, guid: 73bcea19edd61214da337feabed90c6d, type: 3}
+    - {fileID: -2978808618200810919, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
+    - {fileID: 7683567802946276634, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
+    - {fileID: 7683567802946276634, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.016666668
+    m_StopTime: 1.0166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

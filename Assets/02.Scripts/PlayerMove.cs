@@ -27,23 +27,25 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
     [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
     [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
-    private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
+    [SerializeField] private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
     private float curAttackRange;  // 플레이어의 현재 공격 범위
 
     // 컴포넌트
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
-    private Animator anim;  // 플레이어 애니메이터 컴포넌트
+    private Animator playerAnim;  // 플레이어 애니메이터 컴포넌트
+    private Animator weaponAnim;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
-        anim = GetComponent<Animator>();
+        playerAnim = GetComponent<Animator>();
     }
 
     void Start()
     {
+        weaponAnim = transform.GetComponentInChildren<Animator>();  // 임시
         curAttackRange = listAttackRange[0];
     }
 
@@ -81,7 +83,9 @@ public class PlayerMove : MonoBehaviour
         if (hit.transform != null)
         {
             isGround = true;    // isGround를 true로
-            anim.SetBool("IsGround", true); // 애니메이터의 IsGround도 true로
+            jumpCount = 0;
+            playerAnim.SetBool("IsGround", true); // 애니메이터의 IsGround도 true로
+            weaponAnim.SetBool("IsGround", true);
         }
     }
 
@@ -139,7 +143,7 @@ public class PlayerMove : MonoBehaviour
                 // 첫 번째 점프라면 점프 애니메이션 재생
                 if (jumpCount != 1)
                 {
-                    anim.SetBool("Jump", true);
+                    playerAnim.SetBool("Jump", true);
                 }
 
                 jumpCount++;    // jumpCount 증가
@@ -190,7 +194,9 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void AnimationState()
     {
-        anim.SetBool("Attack", false);  // 애니메이터의 Attack 값을 false로
+        // 애니메이터의 공격 애니메이션을 false로
+        playerAnim.SetBool("Slash", false);
+        playerAnim.SetBool("Shot", false);
 
         // 점프 상태가 아니고
         if (!isJump)
@@ -198,31 +204,31 @@ public class PlayerMove : MonoBehaviour
             // 방향키를 누르는 중이라면
             if (moveDir.x != 0)
             {
-                anim.SetBool("Run", true);  // 애니메이터의 Run을 true로
+                playerAnim.SetBool("Run", true);  // 애니메이터의 Run을 true로
             }
             else// 방향키를 누르고 있지 않다면
             {
-                anim.SetBool("Run", false); // 애니메이터의 Run을 false로
+                playerAnim.SetBool("Run", false); // 애니메이터의 Run을 false로
             }
         }
 
         // 현재 재생되는 애니메이션이 점프 애니메이션이고 애니메이션 재생이 끝났다면
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Anfang_Jump_Animation") == true
-            && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        if(playerAnim.GetCurrentAnimatorStateInfo(0).IsName("Anfang_Jump_Animation") == true
+            && playerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
-            anim.SetBool("Jump", false);    // 애니메이터의 Jump를 false로
+            playerAnim.SetBool("Jump", false);    // 애니메이터의 Jump를 false로
         }
 
         // 플레이어가 낙하중이라면
         if(verticalVelocity < 0)
         {
-            anim.SetBool("IsGround", false);    // 애니메이터의 IsGround를 false로
+            playerAnim.SetBool("IsGround", false);    // 애니메이터의 IsGround를 false로
+            weaponAnim.SetBool("IsGround", false);
         }
 
         // 공격 키를 누르면
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            anim.SetBool("Attack", true);   // 애니메이터의 어택을 true로
             Attack();
         }
     }
@@ -238,6 +244,11 @@ public class PlayerMove : MonoBehaviour
             case PlayerEquip.Sword:
                 SwordAttack();
                 break;
+
+            // 현재 장착한 장비가 활이라면
+            case PlayerEquip.Bow:
+                BowAttack();
+                break;
         }
     }
 
@@ -247,12 +258,19 @@ public class PlayerMove : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size,
             90f, Vector2.right * transform.localScale.x, curAttackRange * transform.localScale.x,
             LayerMask.GetMask("Monster"));
+        playerAnim.SetBool("Slash", true);   // 애니메이터의 Slash를 true로
 
         // 피격당한 몬스터에게서 피격 함수 호출
-        if(hit.transform != null)
+        if (hit.transform != null)
         {
             hit.transform.gameObject.GetComponent<Monster>().MonsterHit(playerAtk);
         }
+    }
+
+    private void BowAttack()
+    {
+        playerAnim.SetBool("Shot", true);
+        // 발사체를 발사하는 코드를 추가해야 함
     }
 
     /// <summary>
