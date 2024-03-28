@@ -144,6 +144,8 @@ public class PlayerMove : MonoBehaviour
                 if (jumpCount != 1)
                 {
                     playerAnim.SetBool("Jump", true);
+                    playerAnim.SetBool("IsGround", false);
+                    weaponAnim.SetBool("IsGround", false);
                 }
 
                 jumpCount++;    // jumpCount 증가
@@ -195,8 +197,8 @@ public class PlayerMove : MonoBehaviour
     private void AnimationState()
     {
         // 애니메이터의 공격 애니메이션을 false로
-        playerAnim.SetBool("Slash", false);
-        playerAnim.SetBool("Shot", false);
+        //playerAnim.SetBool("Slash", false);
+        //playerAnim.SetBool("Shot", false);
 
         // 점프 상태가 아니고
         if (!isJump)
@@ -258,7 +260,8 @@ public class PlayerMove : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size,
             90f, Vector2.right * transform.localScale.x, curAttackRange * transform.localScale.x,
             LayerMask.GetMask("Monster"));
-        playerAnim.SetBool("Slash", true);   // 애니메이터의 Slash를 true로
+        //playerAnim.SetBool("Slash", true);   // 애니메이터의 Slash를 true로
+        playerAnim.SetTrigger("Slash");
 
         // 피격당한 몬스터에게서 피격 함수 호출
         if (hit.transform != null)
