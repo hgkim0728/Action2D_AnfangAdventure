@@ -8,16 +8,18 @@ public class Monster : MonoBehaviour
     {
         Idle,
         Move,
+        Trace,
         Attack,
-        Hit,
         Die
     }
 
     // 몬스터 이동
     [SerializeField, Tooltip("몬스터 이동속도")] private float moveSpeed = 5.0f;
+    private int monsterDir;
 
     // 전투
     [Space]
+    [SerializeField, Tooltip("플레이어 위치")] private Transform trsPlayer;
     [SerializeField, Tooltip("몬스터 공격 범위")] private float monsterAttackRange = 1f;
     [SerializeField, Tooltip("몬스터 체력")] private int monsterHp = 2;
     [SerializeField, Tooltip("몬스터 공격력")] private int monsterAtk = 1;
@@ -40,13 +42,14 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
+        stateChangeTime = 0.5f;
     }
 
     void Start()
     {
         anim = transform.GetComponentInChildren<Animator>();
         monsterCol = transform.GetComponentInChildren<BoxCollider2D>();
+        trsPlayer = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)
@@ -83,26 +86,43 @@ public class Monster : MonoBehaviour
                 MonsterMove();
                 break;
 
-            case MonsterState.Hit:
-                anim.SetBool("Hit", true);
-                Invoke("OffHitAnimation", 0.1f);
+            case MonsterState.Trace:
                 break;
+            
+        }
+
+        if(stateChangeTime <= 0 && monsterState != MonsterState.Trace)
+        {
+            stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
+        }
+        else
+        {
+            stateChangeTime -= Time.deltaTime;
         }
     }
 
     private void MonsterMove()
     {
-
+        rigid.velocity = moveSpeed * Vector2.right * monsterDir;
+        MonsterTurn();
     }
 
-    private void OffHitAnimation()
+    private void MonsterTurn()
     {
-        anim.SetBool("Hit", false);
-        monsterState = MonsterState.Attack;
+        if(monsterDir == -1)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
     public void MonsterHit(float _damage)
     {
         Debug.Log("Ouch");
+        anim.SetTrigger("Hit");
+
     }
 }

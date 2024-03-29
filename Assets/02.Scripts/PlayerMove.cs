@@ -12,6 +12,7 @@ public class PlayerMove : MonoBehaviour
         Bow
     }
 
+    #region 변수
     // 플레이어 이동
     [SerializeField, Tooltip("플레이어 이동 속도")] private float moveSpeed = 5.0f;
     [SerializeField, Tooltip("플레이어가 점프하는 힘")] private float jumpForce = 20.0f;
@@ -34,6 +35,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
     private List<Animator> listAnims = new List<Animator>();
+    #endregion
 
     private void Awake()
     {
@@ -128,11 +130,6 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-        //if(Physics2D.Raycast(transform.position, Vector2.down, capsuleCollider.size.y / 2 + 0.3f, LayerMask.GetMask("Ground")))
-        //{
-        //    isGround = true;
-        //}
-
         // Z 키를 누르면
         if(Input.GetKeyDown(KeyCode.Z))
         {
