@@ -43,7 +43,7 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        stateChangeTime = 0.5f;
+        stateChangeTime = 0.1f;
     }
 
     void Start()
@@ -88,11 +88,12 @@ public class Monster : MonoBehaviour
                 if(stateChangeTime <= 0)
                 {
                     stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
-                    int nextState = Random.Range(0, 2);
+                    int nextState = Random.Range(0, 3);
 
                     if(nextState == 0)
                     {
                         monsterState = MonsterState.Idle;
+                        rigid.velocity = Vector2.zero;
                         anim.SetBool("Move", false);
                     }
                     else
@@ -159,11 +160,11 @@ public class Monster : MonoBehaviour
 
         Vector2 v = monsterCol.bounds.center;
         v.x = monsterCol.bounds.center.x + (monsterCol.bounds.size.x / 2 + 0.1f) * monsterDir;
-        RaycastHit2D groundHit = Physics2D.Raycast(v, Vector2.down, monsterCol.bounds.size.y / 2 - 0.1f,
+        RaycastHit2D groundHit = Physics2D.Raycast(v, Vector2.down, monsterCol.bounds.size.y / 2 + 0.1f,
             LayerMask.GetMask("Ground"));
         Debug.DrawRay(v, Vector2.down, Color.red);
 
-        if(wallHit.transform != null || groundHit.transform != null)
+        if(wallHit.transform != null || groundHit.transform == null)
         {
             if (monsterState == MonsterState.Trace)
             {
