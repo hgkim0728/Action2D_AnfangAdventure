@@ -25,6 +25,7 @@ public class Monster : MonoBehaviour
 
     [SerializeField, Tooltip("몬스터 공격 범위")] private float monsterAttackRange = 1f;
     [SerializeField, Tooltip("공격 쿨타임")] private float attackCoolTime = 1.0f;
+    private float coolTime;
     [SerializeField, Tooltip("몬스터 공격력")] private int monsterAtk = 1;
     [SerializeField, Tooltip("공격을 한 상태인지 아닌지")] private bool isAttack = false;
 
@@ -50,6 +51,7 @@ public class Monster : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         stateChangeTime = 0.1f;
+        coolTime = attackCoolTime;
     }
 
     void Start()
@@ -120,8 +122,7 @@ public class Monster : MonoBehaviour
             }
             else if(isHit == true)
             {
-                if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") == true &&
-                    anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
                     isHit = false;
                     monsterState = MonsterState.Trace;
@@ -142,7 +143,7 @@ public class Monster : MonoBehaviour
                 break;
 
             case MonsterState.Trace:
-                
+                Trace();
                 break;
             
         }
@@ -184,12 +185,64 @@ public class Monster : MonoBehaviour
         {
             if (monsterState == MonsterState.Trace)
             {
-                monsterState = MonsterState.Idle;
+                rigid.velocity = Vector2.zero;
+                anim.SetBool("Move", false);
             }
             else if (monsterState == MonsterState.Move)
             {
                 monsterDir *= -1;
             }
+        }
+    }
+
+    private void Trace()
+    {
+        float distance = Vector2.Distance(transform.position, trsPlayer.position);
+
+        if (distance < traceRange)
+        {
+            if (distance > monsterAttackRange)
+            {
+                coolTime = attackCoolTime;
+                isAttack = false;
+
+                if (transform.position.x - trsPlayer.position.x < 0)
+                {
+                    monsterDir = 1;
+                }
+                else
+                {
+                    monsterDir = -1;
+                }
+
+                anim.SetBool("Move", true);
+                MonsterMove();
+            }
+            else if (isAttack == false)
+            {
+                isAttack = true;
+                anim.SetTrigger("Attack");
+            }
+
+            if (isAttack == true)
+            {
+                if (coolTime > 0)
+                {
+                    coolTime -= Time.deltaTime;
+                }
+                else
+                {
+                    coolTime = attackCoolTime;
+                    isAttack = false;
+                }
+            }
+        }
+        else
+        {
+            coolTime = attackCoolTime;
+            isAttack = false;
+            rigid.velocity = Vector2.zero;
+            monsterState = MonsterState.Idle;
         }
     }
 
