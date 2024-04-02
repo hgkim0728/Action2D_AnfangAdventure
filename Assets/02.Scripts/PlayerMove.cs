@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -274,7 +275,7 @@ public class PlayerMove : MonoBehaviour
     {
         // 작동 확인용 나중에 고쳐야 함
         RaycastHit2D hit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size,
-            90f, Vector2.right * transform.localScale.x, curAttackRange * transform.localScale.x,
+            0f, Vector2.right * transform.localScale.x, curAttackRange,
             LayerMask.GetMask("Monster"));
         //playerAnim.SetBool("Slash", true);   // 애니메이터의 Slash를 true로
         foreach(Animator anim in listAnims)

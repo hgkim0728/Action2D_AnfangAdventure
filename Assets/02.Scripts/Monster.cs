@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    int hitCount = 0;   // 플레이어 공격 작동 테스트용. 끝나면 꼭 지울 것
+
     enum MonsterState
     {
         Idle,
         Move,
         Trace,
-        Attack,
         Die
     }
 
@@ -20,11 +21,16 @@ public class Monster : MonoBehaviour
     // 전투
     [Space]
     [SerializeField, Tooltip("플레이어 위치")] private Transform trsPlayer;
+    [SerializeField, Tooltip("플레이어를 추격하는 범위")] private float traceRange = 5.0f;
+
     [SerializeField, Tooltip("몬스터 공격 범위")] private float monsterAttackRange = 1f;
-    [SerializeField, Tooltip("몬스터 체력")] private int monsterHp = 2;
-    [SerializeField, Tooltip("몬스터 공격력")] private int monsterAtk = 1;
     [SerializeField, Tooltip("공격 쿨타임")] private float attackCoolTime = 1.0f;
+    [SerializeField, Tooltip("몬스터 공격력")] private int monsterAtk = 1;
+    [SerializeField, Tooltip("공격을 한 상태인지 아닌지")] private bool isAttack = false;
+
+    [SerializeField, Tooltip("몬스터 체력")] private int monsterHp = 2;
     [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] private float hitImpulse = 3.0f;
+    [SerializeField, Tooltip("몬스터가 피격당한 상태인지 아닌지")] private bool isHit = false;
     [SerializeField, Tooltip("몬스터가 죽었는지 아닌지")] private bool isDie = false;
 
     // 상태 변경 시간
@@ -83,12 +89,12 @@ public class Monster : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
 
-            if (monsterState != MonsterState.Trace && monsterState != MonsterState.Attack)
+            if (monsterState != MonsterState.Trace && isHit == false)
             {
                 if(stateChangeTime <= 0)
                 {
                     stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
-                    int nextState = Random.Range(0, 3);
+                    int nextState = Random.Range(0, 2);
 
                     if(nextState == 0)
                     {
@@ -112,6 +118,15 @@ public class Monster : MonoBehaviour
                     stateChangeTime -= Time.deltaTime;
                 }
             }
+            else if(isHit == true)
+            {
+                if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") == true &&
+                    anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                {
+                    isHit = false;
+                    monsterState = MonsterState.Trace;
+                }
+            }
         }
     }
 
@@ -127,6 +142,7 @@ public class Monster : MonoBehaviour
                 break;
 
             case MonsterState.Trace:
+                
                 break;
             
         }
@@ -177,9 +193,13 @@ public class Monster : MonoBehaviour
         }
     }
 
-    public void MonsterHit(float _damage)
+    public void MonsterHit(int _damage)
     {
-        Debug.Log("Ouch");
+        hitCount++;
+        Debug.Log("Ouch " + hitCount);
+        monsterHp -= _damage;
+        isHit = true;
+        rigid.velocity = Vector2.zero;
         anim.SetTrigger("Hit");
 
     }
