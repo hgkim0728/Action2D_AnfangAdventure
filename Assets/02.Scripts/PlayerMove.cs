@@ -99,8 +99,9 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void Move()
     {
+        // 입력된 방향키의 값과 캐릭터 이동속도를 곱해 리지드바디 velocity의 x값을 정함
         moveDir.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
-        moveDir.y = rigid.velocity.y;
+        moveDir.y = rigid.velocity.y;   // y값은 그대로
         rigid.velocity = moveDir;
         Turn();
 
@@ -271,6 +272,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 검이나 창 등을 장비한 상태에서 공격했을 때
+    /// </summary>
     private void SwordAttack()
     {
         // 작동 확인용 나중에 고쳐야 함
@@ -290,6 +294,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 활을 장비한 상태에서 공격했을 때
+    /// </summary>
     private void BowAttack()
     {
         foreach(Animator anim in listAnims)

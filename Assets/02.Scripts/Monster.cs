@@ -85,46 +85,58 @@ public class Monster : MonoBehaviour
         MonsterAction();
     }
 
+    /// <summary>
+    /// 몬스터 상태 체크
+    /// </summary>
+    /// <returns></returns>
     IEnumerator MonsterStateCheck()
     {
+        // 몬스터가 살아있다면
         while (!isDie)
         {
             yield return new WaitForSeconds(0.1f);
 
+            // 몬스터가 추적 상태가 아니고 피격 상태도 아니라면
             if (monsterState != MonsterState.Trace && isHit == false)
             {
+                // 상태 변경 시간이 되었다면
                 if(stateChangeTime <= 0)
                 {
+                    // 랜덤으로 상태 변경 시간을 재설정
                     stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
-                    int nextState = Random.Range(0, 2);
+                    int nextState = Random.Range(0, 2); // 다음 상태를 랜덤으로 고르고
 
+                    // 0이라면 대기 상태
                     if(nextState == 0)
                     {
-                        monsterState = MonsterState.Idle;
-                        rigid.velocity = Vector2.zero;
-                        anim.SetBool("Move", false);
+                        monsterState = MonsterState.Idle;   // 몬스터 상태를 대기 상태로
+                        rigid.velocity = Vector2.zero;  // 이동하지 않도록 정지
+                        anim.SetBool("Move", false);    // 애니메이션도 대기 상태로
                     }
-                    else
+                    else// 1이라면 이동 상태
                     {
                         do
                         {
-                            monsterDir = Random.Range(-1, 2);
-                        } while (monsterDir == 0);
+                            monsterDir = Random.Range(-1, 2);   // 이동 방향 랜덤 지정
+                        } while (monsterDir == 0);  // -1 아니면 1만 되도록
 
-                        monsterState = MonsterState.Move;
-                        anim.SetBool("Move", true);
+                        monsterState = MonsterState.Move;   // 몬스터 상태를 이동으로
+                        anim.SetBool("Move", true);     // 애니메이션도 이동 상태로
                     }
                 }
-                else
+                else// 상태 변경 시간이 되지 않았다면
                 {
-                    stateChangeTime -= Time.deltaTime;
+                    stateChangeTime -= Time.deltaTime;  // 상태 변경 시간 감소
                 }
             }
-            else if(isHit == true)
+            else if(isHit == true)  // 피격 상태라면
             {
-                if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                // 현재 재생중인 애니메이션이 피격 애니메이션이고 애니메이션의 재생이 끝났다면
+                if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") == true &&
+                    anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
                     isHit = false;
+                    anim.SetTrigger("Trace");
                     monsterState = MonsterState.Trace;
                 }
             }
@@ -254,6 +266,6 @@ public class Monster : MonoBehaviour
         isHit = true;
         rigid.velocity = Vector2.zero;
         anim.SetTrigger("Hit");
-
+        monsterState = MonsterState.Idle;
     }
 }
