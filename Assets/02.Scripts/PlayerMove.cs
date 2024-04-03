@@ -51,6 +51,14 @@ public class PlayerMove : MonoBehaviour
         curAttackRange = listAttackRange[0];
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.transform.tag == "Monster")
+        {
+            playerHp -= 1;
+        }
+    }
+
     void Update()
     {
         CheckGround();
@@ -304,6 +312,12 @@ public class PlayerMove : MonoBehaviour
             anim.SetTrigger("Shot");
         }
         // 발사체를 발사하는 코드를 추가해야 함
+    }
+
+    public void PlayerHit(int _damage)
+    {
+        playerHp -= _damage;
+        // 밀려나는 효과도 넣어주고 싶은데...
     }
 
     /// <summary>

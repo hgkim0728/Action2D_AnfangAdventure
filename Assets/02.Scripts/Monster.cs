@@ -96,7 +96,7 @@ public class Monster : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
 
-            // 몬스터가 추적 상태가 아니고 피격 상태도 아니라면
+            // 몬스터가 추격 상태가 아니고 피격 상태도 아니라면
             if (monsterState != MonsterState.Trace && isHit == false)
             {
                 // 상태 변경 시간이 되었다면
@@ -135,40 +135,54 @@ public class Monster : MonoBehaviour
                 if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") == true &&
                     anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
-                    isHit = false;
-                    anim.SetTrigger("Trace");
-                    monsterState = MonsterState.Trace;
+                    isHit = false;  // 피격 상태 해제
+                    anim.SetTrigger("Trace");   // 피격 애니메이션에서 대기 애니메이션으로 넘어가게 하기
+                    monsterState = MonsterState.Trace;  // 몬스터 상태를 추격 상태로
                 }
             }
         }
     }
 
+    /// <summary>
+    /// 몬스터 상태에 따라 행동하게 하는 함수
+    /// </summary>
     private void MonsterAction()
     {
         switch(monsterState)
         {
+            // 몬스터가 대기 상태일 경우
+            // 딱히 하는 거 없음
             case MonsterState.Idle:
                 break;
 
+            // 몬스터가 이동 상태일 경우
             case MonsterState.Move:
-                MonsterMove();
+                MonsterMove();  // 이동 함수 작동
                 break;
 
+            // 몬스터가 추격 상태일 경우
             case MonsterState.Trace:
-                Trace();
+                Trace();    // 추격 함수 작동
                 break;
             
         }
     }
 
+    /// <summary>
+    /// 몬스터의 이동을 담당하는 함수
+    /// </summary>
     private void MonsterMove()
     {
+        // 몬스터의 속도와 방향대로 이동
         float x = moveSpeed * monsterDir;
         rigid.velocity = new Vector2(x, rigid.velocity.y);
         MonsterTurn();
         MoveCheck();
     }
 
+    /// <summary>
+    /// 몬스터의 이동 방향에 따라 스프라이트의 방향 변경
+    /// </summary>
     private void MonsterTurn()
     {
         if(monsterDir == -1)
@@ -181,43 +195,59 @@ public class Monster : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 몬스터가 이동중일 때 몬스터의 앞에 벽이 있는지와
+    /// 길이 있는지를 체크
+    /// </summary>
     private void MoveCheck()
     {
+        // 몬스터의 앞에 벽이 있는지를 체크
         RaycastHit2D wallHit = Physics2D.Raycast(monsterCol.bounds.center, Vector2.right * monsterDir,
             (monsterCol.bounds.size.x / 2 + 0.2f), LayerMask.GetMask("Ground"));
         Debug.DrawRay(monsterCol.bounds.center, Vector2.right * monsterDir, Color.red);
 
+        // 몬스터의 앞에 길이 있는지를 체크
         Vector2 v = monsterCol.bounds.center;
         v.x = monsterCol.bounds.center.x + (monsterCol.bounds.size.x / 2 + 0.1f) * monsterDir;
         RaycastHit2D groundHit = Physics2D.Raycast(v, Vector2.down, monsterCol.bounds.size.y / 2 + 0.1f,
             LayerMask.GetMask("Ground"));
         Debug.DrawRay(v, Vector2.down, Color.red);
 
+        // 몬스터의 앞에 벽이 있거나 길이 없다면
         if(wallHit.transform != null || groundHit.transform == null)
         {
+            // 몬스터 상태가 추격 상태일 경우
             if (monsterState == MonsterState.Trace)
             {
-                rigid.velocity = Vector2.zero;
-                anim.SetBool("Move", false);
+                rigid.velocity = Vector2.zero;  // 정지
+                anim.SetBool("Move", false);    // 대기 애니메이션 재생
             }
-            else if (monsterState == MonsterState.Move)
+            else if (monsterState == MonsterState.Move)// 몬스터 상태가 이동 상태일 경우
             {
-                monsterDir *= -1;
+                monsterDir *= -1;   // 이동 방향을 반대 방향으로 변경
             }
         }
     }
 
+    /// <summary>
+    /// 몬스터가 추격 상태일 경우의 행동
+    /// </summary>
     private void Trace()
     {
+        // 몬스터와 플레이어의 거리
         float distance = Vector2.Distance(transform.position, trsPlayer.position);
 
+        // 추격 범위 안에 플레이어가 있을 경우
         if (distance < traceRange)
         {
+            // 몬스터의 공격 범위 안에 플레이어가 없을 경우
             if (distance > monsterAttackRange)
             {
+                // 공격 쿨타임 초기화
                 coolTime = attackCoolTime;
                 isAttack = false;
 
+                // 플레이어가 어느 방향에 있는지를 체크
                 if (transform.position.x - trsPlayer.position.x < 0)
                 {
                     monsterDir = 1;
@@ -227,45 +257,51 @@ public class Monster : MonoBehaviour
                     monsterDir = -1;
                 }
 
-                anim.SetBool("Move", true);
-                MonsterMove();
+                anim.SetBool("Move", true); // 이동 애니메이션 재생
+                MonsterMove();  // 플레이어가 있는 방향으로 이동
             }
-            else if (isAttack == false)
+            else if (isAttack == false)// 플레이어가 공격 범위 안에 있고 공격 쿨타임이 지난 상태라면
             {
-                isAttack = true;
-                anim.SetTrigger("Attack");
+                isAttack = true;    // 몬스터의 상태를 재장전(더 좋은 표현을 찾기 전까지는 이렇게 부르기로) 상태로
+                anim.SetTrigger("Attack");  // 공격 애니메이션 재생
             }
 
+            // 재장전 상태라면
             if (isAttack == true)
             {
+                // 공격 쿨타임이 지나지 않았다면
                 if (coolTime > 0)
                 {
-                    coolTime -= Time.deltaTime;
+                    coolTime -= Time.deltaTime;     // 시간 감소
                 }
                 else
                 {
-                    coolTime = attackCoolTime;
-                    isAttack = false;
+                    coolTime = attackCoolTime;  // 쿨타임 재설정
+                    isAttack = false;   // 재장전 상태 해제
                 }
             }
         }
-        else
+        else// 플레이어가 추격 범위 밖에 있다면
         {
-            coolTime = attackCoolTime;
+            coolTime = attackCoolTime;  // 공격 쿨타임 재설정
             isAttack = false;
-            rigid.velocity = Vector2.zero;
-            monsterState = MonsterState.Idle;
+            rigid.velocity = Vector2.zero;  // 추격 정지
+            monsterState = MonsterState.Idle;   // 몬스터의 상태를 대기로
         }
     }
 
+    /// <summary>
+    /// 몬스터 피격 함수
+    /// </summary>
+    /// <param name="_damage">몬스터가 받을 데미지</param>
     public void MonsterHit(int _damage)
     {
-        hitCount++;
+        hitCount++; // 디버그용
         Debug.Log("Ouch " + hitCount);
-        monsterHp -= _damage;
-        isHit = true;
-        rigid.velocity = Vector2.zero;
-        anim.SetTrigger("Hit");
-        monsterState = MonsterState.Idle;
+        monsterHp -= _damage;   // 플레이어의 공격력만큼 몬스터 체력 감소
+        isHit = true;   // 피격 상태
+        rigid.velocity = Vector2.zero;  // 이동 정지
+        anim.SetTrigger("Hit"); // 피격 애니메이션 작동
+        monsterState = MonsterState.Idle;   // 몬스터 상태를 대기 상태로
     }
 }
