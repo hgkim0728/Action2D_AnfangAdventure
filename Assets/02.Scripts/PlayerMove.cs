@@ -30,7 +30,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
     [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
     [SerializeField] private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
-    private float curAttackRange;  // 플레이어의 현재 공격 범위
+    private float curAttackRange;   // 플레이어의 현재 공격 범위
+    private bool isDie = false;     // 플레이어 생존여부
 
     // 컴포넌트
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
@@ -56,16 +57,28 @@ public class PlayerMove : MonoBehaviour
         if(collision.transform.tag == "Monster")
         {
             playerHp -= 1;
+            foreach(Animator anim in listAnims)
+            {
+                anim.SetTrigger("Hit");
+            }
+        }
+
+        if(isDie == false && playerHp <= 0)
+        {
+            PlayerDie();
         }
     }
 
     void Update()
     {
-        CheckGround();
-        Move();
-        Jump();
-        CheckGravity();
-        AnimationState();
+        if (isDie == false)
+        {
+            CheckGround();
+            Move();
+            Jump();
+            CheckGravity();
+            AnimationState();
+        }
     }
 
     /// <summary>
@@ -318,6 +331,15 @@ public class PlayerMove : MonoBehaviour
     {
         playerHp -= _damage;
         // 밀려나는 효과도 넣어주고 싶은데...
+    }
+
+    private void PlayerDie()
+    {
+        foreach(Animator anim in listAnims)
+        {
+            anim.SetTrigger("Die");
+            isDie = true;
+        }
     }
 
     /// <summary>

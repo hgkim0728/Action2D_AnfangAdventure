@@ -129,6 +129,8 @@ public class Monster : MonoBehaviour
         }
         else if(isHit == true)  // 피격 상태라면
         {
+            // 몬스터가 플레이어에게 피격 당해밀려날 때 공중에 머무는 시간이 길 경우 레이캐스트를 추가할 필요가 있을 듯
+
             // 현재 재생중인 애니메이션이 피격 애니메이션이고 애니메이션의 재생이 끝났다면
             if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") == true &&
                 anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -308,12 +310,22 @@ public class Monster : MonoBehaviour
     {
         if (transform.position.x - trsPlayer.position.x < 0)
         {
-            rigid.AddForce(Vector2.left * hitImpulse, ForceMode2D.Impulse);
+            rigid.AddForce(new Vector2(-hitImpulse, hitImpulse), ForceMode2D.Impulse);
         }
         else
         {
-            rigid.AddForce(Vector2.right * hitImpulse, ForceMode2D.Impulse);
+            rigid.AddForce(Vector2.one * hitImpulse, ForceMode2D.Impulse);
         }
 
+        if(isDie == false && monsterHp <= 0)
+        {
+            Invoke("MonsterDie", 0.2f);
+        }
+    }
+
+    private void MonsterDie()
+    {
+        isDie = true;
+        anim.SetTrigger("Die");
     }
 }
