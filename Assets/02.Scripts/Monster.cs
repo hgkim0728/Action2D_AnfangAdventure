@@ -50,7 +50,7 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        stateChangeTime = 0.1f;
+        stateChangeTime = 0.5f;
         coolTime = attackCoolTime;
     }
 
@@ -59,7 +59,6 @@ public class Monster : MonoBehaviour
         anim = transform.GetComponentInChildren<Animator>();
         monsterCol = transform.GetComponentInChildren<BoxCollider2D>();
         trsPlayer = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(MonsterStateCheck());
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)
@@ -82,6 +81,7 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
+        MonsterStateCheck();
         MonsterAction();
     }
 
@@ -89,56 +89,53 @@ public class Monster : MonoBehaviour
     /// 몬스터 상태 체크
     /// </summary>
     /// <returns></returns>
-    IEnumerator MonsterStateCheck()
+    private void MonsterStateCheck()
     {
-        // 몬스터가 살아있다면
-        while (!isDie)
+        // 몬스터가 죽었다면 return
+        if (isDie) return;
+
+        // 몬스터가 추격 상태가 아니고 피격당하지 않았다면
+        if (monsterState != MonsterState.Trace && isHit == false)
         {
-            yield return new WaitForSeconds(0.1f);
-
-            // 몬스터가 추격 상태가 아니고 피격 상태도 아니라면
-            if (monsterState != MonsterState.Trace && isHit == false)
+            // 상태 변경 시간이 되었다면
+            if(stateChangeTime <= 0)
             {
-                // 상태 변경 시간이 되었다면
-                if(stateChangeTime <= 0)
+                // 랜덤으로 상태 변경 시간을 재설정
+                stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
+                int nextState = Random.Range(0, 2); // 다음 상태를 랜덤으로 고르고
+
+                // 0이라면 대기 상태
+                if(nextState == 0)
                 {
-                    // 랜덤으로 상태 변경 시간을 재설정
-                    stateChangeTime = Random.Range(minStateChangeTime, maxStateChangeTime);
-                    int nextState = Random.Range(0, 2); // 다음 상태를 랜덤으로 고르고
-
-                    // 0이라면 대기 상태
-                    if(nextState == 0)
-                    {
-                        monsterState = MonsterState.Idle;   // 몬스터 상태를 대기 상태로
-                        rigid.velocity = Vector2.zero;  // 이동하지 않도록 정지
-                        anim.SetBool("Move", false);    // 애니메이션도 대기 상태로
-                    }
-                    else// 1이라면 이동 상태
-                    {
-                        do
-                        {
-                            monsterDir = Random.Range(-1, 2);   // 이동 방향 랜덤 지정
-                        } while (monsterDir == 0);  // -1 아니면 1만 되도록
-
-                        monsterState = MonsterState.Move;   // 몬스터 상태를 이동으로
-                        anim.SetBool("Move", true);     // 애니메이션도 이동 상태로
-                    }
+                    monsterState = MonsterState.Idle;   // 몬스터 상태를 대기 상태로
+                    rigid.velocity = Vector2.zero;  // 이동하지 않도록 정지
+                    anim.SetBool("Move", false);    // 애니메이션도 대기 상태로
                 }
-                else// 상태 변경 시간이 되지 않았다면
+                else// 1이라면 이동 상태
                 {
-                    stateChangeTime -= Time.deltaTime;  // 상태 변경 시간 감소
+                    do
+                    {
+                        monsterDir = Random.Range(-1, 2);   // 이동 방향 랜덤 지정
+                    } while (monsterDir == 0);  // -1 아니면 1만 되도록
+
+                    monsterState = MonsterState.Move;   // 몬스터 상태를 이동으로
+                    anim.SetBool("Move", true);     // 애니메이션도 이동 상태로
                 }
             }
-            else if(isHit == true)  // 피격 상태라면
+            else// 상태 변경 시간이 되지 않았다면
             {
-                // 현재 재생중인 애니메이션이 피격 애니메이션이고 애니메이션의 재생이 끝났다면
-                if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") == true &&
-                    anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-                {
-                    isHit = false;  // 피격 상태 해제
-                    anim.SetTrigger("Trace");   // 피격 애니메이션에서 대기 애니메이션으로 넘어가게 하기
-                    monsterState = MonsterState.Trace;  // 몬스터 상태를 추격 상태로
-                }
+                stateChangeTime -= Time.deltaTime;  // 상태 변경 시간 감소
+            }
+        }
+        else if(isHit == true)  // 피격 상태라면
+        {
+            // 현재 재생중인 애니메이션이 피격 애니메이션이고 애니메이션의 재생이 끝났다면
+            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Slime_Hit_Animation") == true &&
+                anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                isHit = false;  // 피격 상태 해제
+                anim.SetTrigger("Trace");   // 피격 애니메이션에서 대기 애니메이션으로 넘어가게 하기
+                monsterState = MonsterState.Trace;  // 몬스터 상태를 추격 상태로
             }
         }
     }
@@ -264,6 +261,7 @@ public class Monster : MonoBehaviour
             {
                 isAttack = true;    // 몬스터의 상태를 재장전(더 좋은 표현을 찾기 전까지는 이렇게 부르기로) 상태로
                 anim.SetTrigger("Attack");  // 공격 애니메이션 재생
+                anim.SetBool("Move", false);
             }
 
             // 재장전 상태라면
@@ -303,5 +301,19 @@ public class Monster : MonoBehaviour
         rigid.velocity = Vector2.zero;  // 이동 정지
         anim.SetTrigger("Hit"); // 피격 애니메이션 작동
         monsterState = MonsterState.Idle;   // 몬스터 상태를 대기 상태로
+        Invoke("Pushed", 0.1f);
+    }
+
+    private void Pushed()
+    {
+        if (transform.position.x - trsPlayer.position.x < 0)
+        {
+            rigid.AddForce(Vector2.left * hitImpulse, ForceMode2D.Impulse);
+        }
+        else
+        {
+            rigid.AddForce(Vector2.right * hitImpulse, ForceMode2D.Impulse);
+        }
+
     }
 }

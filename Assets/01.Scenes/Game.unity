@@ -1622,16 +1622,16 @@ MonoBehaviour:
   moveSpeed: 3
   trsPlayer: {fileID: 0}
   traceRange: 10
-  monsterAttackRange: 2
-  attackCoolTime: 1
+  monsterAttackRange: 2.5
+  attackCoolTime: 2
   monsterAtk: 1
   isAttack: 0
   monsterHp: 2
-  hitImpulse: 2
+  hitImpulse: 50
   isHit: 0
   isDie: 0
-  minStateChangeTime: 0.3
-  maxStateChangeTime: 0.5
+  minStateChangeTime: 2
+  maxStateChangeTime: 4
   stateChangeTime: 0
   monsterState: 0
 --- !u!1 &1795039932
