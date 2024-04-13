@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 13456860}
   - component: {fileID: 13456862}
   - component: {fileID: 13456861}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: ShortDagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1383,7 +1383,7 @@ GameObject:
   - component: {fileID: 1205218613}
   - component: {fileID: 1205218612}
   - component: {fileID: 1205218617}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Anfang
   m_TagString: Player
   m_Icon: {fileID: 0}
