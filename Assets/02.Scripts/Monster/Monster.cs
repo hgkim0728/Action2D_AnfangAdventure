@@ -56,9 +56,21 @@ public class Monster : MonoBehaviour
 
     internal void Start()
     {
+        trsPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    internal void SetMonsterObj()
+    {
         anim = transform.GetComponentInChildren<Animator>();
         monsterCol = transform.GetComponentInChildren<BoxCollider2D>();
-        trsPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    internal void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(monsterState != MonsterState.Trace && collision.gameObject.tag == "Player")
+        {
+            monsterDir *= -1;
+        }
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)
@@ -285,12 +297,15 @@ public class Monster : MonoBehaviour
             isAttack = false;
             rigid.velocity = Vector2.zero;  // 추격 정지
             monsterState = MonsterState.Idle;   // 몬스터의 상태를 대기로
+            anim.SetBool("Move", false);
         }
     }
 
     internal virtual void MonsterAttack()
     {
-
+        isAttack = true;    // 몬스터의 상태를 재장전(더 좋은 표현을 찾기 전까지는 이렇게 부르기로) 상태로
+        anim.SetTrigger("Attack");  // 공격 애니메이션 재생
+        anim.SetBool("Move", false);
     }
 
     /// <summary>

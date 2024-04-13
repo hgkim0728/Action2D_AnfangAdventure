@@ -7,7 +7,12 @@ public class WolfAction : Monster
     void Awake()
     {
         base.Awake();
-        anim = transform.GetComponentInChildren<Animator>();
-        monsterCol = transform.GetComponentInChildren<BoxCollider2D>();
+        base.SetMonsterObj();
+    }
+
+    internal override void MonsterAttack()
+    {
+        base.MonsterAttack();
+        rigid.velocity = Vector2.right * monsterDir * monsterAttackRange;
     }
 }
