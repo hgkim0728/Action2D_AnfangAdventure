@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    int hitCount = 0;   // 플레이어 공격 작동 테스트용. 끝나면 꼭 지울 것
+    internal int hitCount = 0;   // 플레이어 공격 작동 테스트용. 끝나면 꼭 지울 것
 
-    enum MonsterState
+    internal enum MonsterState
     {
         Idle,
         Move,
@@ -15,39 +15,39 @@ public class Monster : MonoBehaviour
     }
 
     // 몬스터 이동
-    [SerializeField, Tooltip("몬스터 이동속도")] private float moveSpeed = 5.0f;
-    private int monsterDir = 1;
+    [SerializeField, Tooltip("몬스터 이동속도")] internal float moveSpeed = 5.0f;
+    internal int monsterDir = 1;
 
     // 전투
     [Space]
-    [SerializeField, Tooltip("플레이어 위치")] private Transform trsPlayer;
-    [SerializeField, Tooltip("플레이어를 추격하는 범위")] private float traceRange = 5.0f;
+    [SerializeField, Tooltip("플레이어 위치")] internal Transform trsPlayer;
+    [SerializeField, Tooltip("플레이어를 추격하는 범위")] internal float traceRange = 5.0f;
 
-    [SerializeField, Tooltip("몬스터 공격 범위")] private float monsterAttackRange = 1f;
-    [SerializeField, Tooltip("공격 쿨타임")] private float attackCoolTime = 1.0f;
-    private float coolTime;
-    [SerializeField, Tooltip("몬스터 공격력")] private int monsterAtk = 1;
-    [SerializeField, Tooltip("공격을 한 상태인지 아닌지")] private bool isAttack = false;
+    [SerializeField, Tooltip("몬스터 공격 범위")] internal float monsterAttackRange = 1f;
+    [SerializeField, Tooltip("공격 쿨타임")] internal float attackCoolTime = 1.0f;
+    float coolTime;
+    [SerializeField, Tooltip("몬스터 공격력")] internal int monsterAtk = 1;
+    [SerializeField, Tooltip("공격을 한 상태인지 아닌지")] internal bool isAttack = false;
 
-    [SerializeField, Tooltip("몬스터 체력")] private int monsterHp = 2;
-    [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] private float hitImpulse = 3.0f;
-    [SerializeField, Tooltip("몬스터가 피격당한 상태인지 아닌지")] private bool isHit = false;
-    [SerializeField, Tooltip("몬스터가 죽었는지 아닌지")] private bool isDie = false;
+    [SerializeField, Tooltip("몬스터 체력")] internal int monsterHp = 2;
+    [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] internal float hitImpulse = 3.0f;
+    [SerializeField, Tooltip("몬스터가 피격당한 상태인지 아닌지")] internal bool isHit = false;
+    [SerializeField, Tooltip("몬스터가 죽었는지 아닌지")] internal bool isDie = false;
 
     // 상태 변경 시간
     [Space]
-    [SerializeField, Tooltip("상태 변경 최소 시간")] private float minStateChangeTime = 2.0f;
-    [SerializeField, Tooltip("상태 변경 최대 시간")] private float maxStateChangeTime = 4.0f;
-    [SerializeField] private float stateChangeTime;
+    [SerializeField, Tooltip("상태 변경 최소 시간")] internal float minStateChangeTime = 2.0f;
+    [SerializeField, Tooltip("상태 변경 최대 시간")] internal float maxStateChangeTime = 4.0f;
+    [SerializeField] internal float stateChangeTime;
 
     // 컴포넌트
-    private Rigidbody2D rigid;
-    private BoxCollider2D monsterCol;
-    private Animator anim;
+    internal Rigidbody2D rigid;
+    internal BoxCollider2D monsterCol;
+    internal Animator anim;
 
-    [SerializeField] private MonsterState monsterState = MonsterState.Idle;
+    [SerializeField] internal MonsterState monsterState = MonsterState.Idle;
 
-    private void Awake()
+    void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         stateChangeTime = 0.5f;
@@ -89,7 +89,7 @@ public class Monster : MonoBehaviour
     /// 몬스터 상태 체크
     /// </summary>
     /// <returns></returns>
-    private void MonsterStateCheck()
+    internal virtual void MonsterStateCheck()
     {
         // 몬스터가 죽었다면 return
         if (isDie) return;
@@ -145,7 +145,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터 상태에 따라 행동하게 하는 함수
     /// </summary>
-    private void MonsterAction()
+    internal virtual void MonsterAction()
     {
         switch(monsterState)
         {
@@ -170,7 +170,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터의 이동을 담당하는 함수
     /// </summary>
-    private void MonsterMove()
+    internal virtual void MonsterMove()
     {
         // 몬스터의 속도와 방향대로 이동
         float x = moveSpeed * monsterDir;
@@ -182,7 +182,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터의 이동 방향에 따라 스프라이트의 방향 변경
     /// </summary>
-    private void MonsterTurn()
+    internal virtual void MonsterTurn()
     {
         if(monsterDir == -1)
         {
@@ -198,7 +198,7 @@ public class Monster : MonoBehaviour
     /// 몬스터가 이동중일 때 몬스터의 앞에 벽이 있는지와
     /// 길이 있는지를 체크
     /// </summary>
-    private void MoveCheck()
+    internal virtual void MoveCheck()
     {
         // 몬스터의 앞에 벽이 있는지를 체크
         RaycastHit2D wallHit = Physics2D.Raycast(monsterCol.bounds.center, Vector2.right * monsterDir,
@@ -231,7 +231,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터가 추격 상태일 경우의 행동
     /// </summary>
-    private void Trace()
+    internal virtual void Trace()
     {
         // 몬스터와 플레이어의 거리
         float distance = Vector2.Distance(transform.position, trsPlayer.position);
@@ -261,9 +261,7 @@ public class Monster : MonoBehaviour
             }
             else if (isAttack == false)// 플레이어가 공격 범위 안에 있고 공격 쿨타임이 지난 상태라면
             {
-                isAttack = true;    // 몬스터의 상태를 재장전(더 좋은 표현을 찾기 전까지는 이렇게 부르기로) 상태로
-                anim.SetTrigger("Attack");  // 공격 애니메이션 재생
-                anim.SetBool("Move", false);
+                MonsterAttack();
             }
 
             // 재장전 상태라면
@@ -290,11 +288,16 @@ public class Monster : MonoBehaviour
         }
     }
 
+    internal virtual void MonsterAttack()
+    {
+
+    }
+
     /// <summary>
     /// 몬스터 피격 함수
     /// </summary>
     /// <param name="_damage">몬스터가 받을 데미지</param>
-    public void MonsterHit(int _damage)
+    public virtual void MonsterHit(int _damage)
     {
         hitCount++; // 디버그용
         Debug.Log("Ouch " + hitCount);
@@ -303,10 +306,10 @@ public class Monster : MonoBehaviour
         rigid.velocity = Vector2.zero;  // 이동 정지
         anim.SetTrigger("Hit"); // 피격 애니메이션 작동
         monsterState = MonsterState.Idle;   // 몬스터 상태를 대기 상태로
-        Invoke("Pushed", 0.1f);
+        Invoke("Pushed", 0.15f);
     }
 
-    private void Pushed()
+    public void Pushed()
     {
         if (transform.position.x - trsPlayer.position.x < 0)
         {
@@ -323,7 +326,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void MonsterDie()
+    void MonsterDie()
     {
         isDie = true;
         anim.SetTrigger("Die");

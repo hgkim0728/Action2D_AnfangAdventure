@@ -29,14 +29,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
     [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
     [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
+    [SerializeField, Tooltip("피격당하 플레이어가 정지하는 시간")] private float stunTime = 1.0f;
     [SerializeField] private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
     private float curAttackRange;   // 플레이어의 현재 공격 범위
+    private bool isHit = false;     // 플레이어 피격 여부
     private bool isDie = false;     // 플레이어 생존여부
 
     // 컴포넌트
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
     private CapsuleCollider2D capsuleCollider;  // 플레이어 캡슐콜라이더 컴포넌트
-    private List<Animator> listAnims = new List<Animator>();
+    private List<Animator> listAnims = new List<Animator>();    // 플레이어 & 장비 애니메이터 리스트
     #endregion
 
     private void Awake()
@@ -54,30 +56,32 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.tag == "Monster")
+        if(collision.transform.tag == "Monster" && isDie == false && isHit == false)
         {
-            playerHp -= 1;
-            foreach(Animator anim in listAnims)
-            {
-                anim.SetTrigger("Hit");
-            }
-        }
-
-        if(isDie == false && playerHp <= 0)
-        {
-            PlayerDie();
+            PlayerHit(1);
+            
         }
     }
 
     void Update()
     {
-        if (isDie == false)
+        if (isDie == false && isHit == false)
         {
             CheckGround();
             Move();
             Jump();
             CheckGravity();
             AnimationState();
+        }
+
+        if(isHit == true)
+        {
+            stunTime -= Time.deltaTime;
+
+            if(stunTime <= 0)
+            {
+                isHit = false;
+            }
         }
     }
 
@@ -330,6 +334,17 @@ public class PlayerMove : MonoBehaviour
     public void PlayerHit(int _damage)
     {
         playerHp -= _damage;
+        isHit = true;
+
+        foreach (Animator anim in listAnims)
+        {
+            anim.SetTrigger("Hit");
+        }
+
+        if (isDie == false && playerHp <= 0)
+        {
+            PlayerDie();
+        }
         // 밀려나는 효과도 넣어주고 싶은데...
     }
 

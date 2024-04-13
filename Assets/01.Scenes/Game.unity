@@ -1278,8 +1278,9 @@ MonoBehaviour:
   gravity: 15
   listAttackRange:
   - 1
-  playerHp: 3
+  playerHp: 100
   playerAtk: 1
+  stunTime: 1
   playerEquip: 0
 --- !u!50 &1205218613
 Rigidbody2D:
@@ -1514,7 +1515,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1478743796}
   - component: {fileID: 1478743793}
-  - component: {fileID: 1478743798}
+  - component: {fileID: 1478743799}
   m_Layer: 7
   m_Name: Slime
   m_TagString: Monster
@@ -1565,7 +1566,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1478743798
+--- !u!114 &1478743799
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1574,7 +1575,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1478743792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe830372e4a1ff343a5a8e14dcfe84ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e8383da38eecf3498511af4d6b72bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
@@ -1584,7 +1585,7 @@ MonoBehaviour:
   attackCoolTime: 2
   monsterAtk: 1
   isAttack: 0
-  monsterHp: 2
+  monsterHp: 10
   hitImpulse: 30
   isHit: 0
   isDie: 0
