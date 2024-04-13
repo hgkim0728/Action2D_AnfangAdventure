@@ -47,14 +47,14 @@ public class Monster : MonoBehaviour
 
     [SerializeField] internal MonsterState monsterState = MonsterState.Idle;
 
-    void Awake()
+    internal void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         stateChangeTime = 0.5f;
         coolTime = attackCoolTime;
     }
 
-    void Start()
+    internal void Start()
     {
         anim = transform.GetComponentInChildren<Animator>();
         monsterCol = transform.GetComponentInChildren<BoxCollider2D>();

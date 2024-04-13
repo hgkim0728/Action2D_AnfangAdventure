@@ -9,10 +9,12 @@ public class SlimeAction : Monster
     //    base.Awake();
     //}
 
-    //void Start()
-    //{
-    //    base.Start();
-    //}
+    void Start()
+    {
+        base.Start();
+        anim = transform.GetComponentInChildren<Animator>();
+        monsterCol = transform.GetComponentInChildren<BoxCollider2D>();
+    }
 
     //void Update()
     //{
