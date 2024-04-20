@@ -26,8 +26,8 @@ public class PlayerMove : MonoBehaviour
 
     // 전투
     [Space]
+    // 플레이어 체력은 게임매니저에
     [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
-    [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
     [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
     [SerializeField, Tooltip("피격당하 플레이어가 정지하는 시간")] private float stunTime = 1.0f;
     [SerializeField] private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
@@ -333,7 +333,7 @@ public class PlayerMove : MonoBehaviour
 
     public void PlayerHit(int _damage)
     {
-        playerHp -= _damage;
+        GameManager.instance.PlayerHp -= _damage;
         isHit = true;
 
         foreach (Animator anim in listAnims)
@@ -341,20 +341,20 @@ public class PlayerMove : MonoBehaviour
             anim.SetTrigger("Hit");
         }
 
-        if (isDie == false && playerHp <= 0)
+        if (isDie == false && GameManager.instance.PlayerHp <= 0)
         {
-            PlayerDie();
+            foreach (Animator anim in listAnims)
+            {
+                anim.SetTrigger("Die");
+                isDie = true;
+            }
         }
         // 밀려나는 효과도 넣어주고 싶은데...
     }
 
     private void PlayerDie()
     {
-        foreach(Animator anim in listAnims)
-        {
-            anim.SetTrigger("Die");
-            isDie = true;
-        }
+        GameManager.instance.GameOver();
     }
 
     /// <summary>
