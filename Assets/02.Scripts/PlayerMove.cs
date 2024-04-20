@@ -81,6 +81,7 @@ public class PlayerMove : MonoBehaviour
             if(stunTime <= 0)
             {
                 isHit = false;
+                stunTime = 1.0f;
             }
         }
     }

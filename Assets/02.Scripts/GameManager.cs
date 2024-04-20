@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     // UI
     [Space]
+    [SerializeField, Tooltip("게임오버 패널")] GameObject gameoverPanel;
     [SerializeField, Tooltip("플레이어 체력바")] Slider hpSlider;
 
     #endregion
@@ -61,6 +63,13 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        gameoverPanel.SetActive(true);
         Time.timeScale = 0.0f;
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }
