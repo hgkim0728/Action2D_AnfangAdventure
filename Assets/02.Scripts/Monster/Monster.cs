@@ -47,6 +47,11 @@ public class Monster : MonoBehaviour
 
     [SerializeField] internal MonsterState monsterState = MonsterState.Idle;
 
+    public int MonsterAtk
+    {
+        get { return monsterAtk; }
+    }
+
     internal void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();

@@ -30,7 +30,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
     [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
     [SerializeField, Tooltip("피격당하 플레이어가 정지하는 시간")] private float stunTime = 1.0f;
-    [SerializeField] private PlayerEquip playerEquip;    // 현재 플레이어가 장착한 장비
+    [SerializeField, Tooltip("피격당한 플레이어가 튕겨나가는 힘")] private float hitImpulse = 5.0f;
+    [SerializeField, Tooltip("현재 플레이어가 장착한 장비")] private PlayerEquip playerEquip;
     private float curAttackRange;   // 플레이어의 현재 공격 범위
     private bool isHit = false;     // 플레이어 피격 여부
     private bool isDie = false;     // 플레이어 생존여부
@@ -58,8 +59,7 @@ public class PlayerMove : MonoBehaviour
     {
         if(collision.transform.tag == "Monster" && isDie == false && isHit == false)
         {
-            PlayerHit(1);
-            
+            PlayerHit(collision.transform, collision.transform.GetComponent<Monster>().MonsterAtk);
         }
     }
 
@@ -332,10 +332,19 @@ public class PlayerMove : MonoBehaviour
         // 발사체를 발사하는 코드를 추가해야 함
     }
 
-    public void PlayerHit(int _damage)
+    public void PlayerHit(Transform _trs, int _damage)
     {
         GameManager.instance.PlayerHp -= _damage;
         isHit = true;
+
+        if (transform.position.x - _trs.transform.position.x < 0)
+        {
+            rigid.AddForce(new Vector2(-hitImpulse, hitImpulse), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rigid.AddForce(Vector2.one * hitImpulse, ForceMode2D.Impulse);
+        }
 
         foreach (Animator anim in listAnims)
         {

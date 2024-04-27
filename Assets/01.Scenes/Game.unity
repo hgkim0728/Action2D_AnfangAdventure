@@ -1858,6 +1858,7 @@ MonoBehaviour:
   - 1
   playerAtk: 1
   stunTime: 1
+  hitImpulse: 2.5
   playerEquip: 0
 --- !u!50 &1205218613
 Rigidbody2D:
