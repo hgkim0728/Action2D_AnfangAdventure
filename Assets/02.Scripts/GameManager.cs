@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     // UI
     [Space]
     [SerializeField, Tooltip("게임오버 패널")] GameObject gameoverPanel;
+    [SerializeField, Tooltip("인벤토리 패널")] GameObject inventoryPanel;
     [SerializeField, Tooltip("플레이어 체력바")] Slider hpSlider;
     [SerializeField, Tooltip("플레이어 체력")] TMP_Text hpText;
 
@@ -56,12 +57,30 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         SetHPBar();
+        InventorySet();
     }
 
     private void SetHPBar()
     {
         hpSlider.value = playerHp;
         hpText.text = $"{playerHp}/{maxHp}";
+    }
+
+    private void InventorySet()
+    {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            if(inventoryPanel.activeSelf == false)
+            {
+                inventoryPanel.SetActive(true);
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                inventoryPanel.SetActive(false);
+                Time.timeScale = 1f;
+            }
+        }
     }
 
     public void GameOver()
