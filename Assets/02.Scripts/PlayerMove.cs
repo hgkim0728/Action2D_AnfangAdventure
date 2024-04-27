@@ -29,6 +29,7 @@ public class PlayerMove : MonoBehaviour
     // 플레이어 체력은 게임매니저에
     [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
     [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
+    public int PlayerAtk { get { return playerAtk; }  set { value = playerAtk; } }
     [SerializeField, Tooltip("피격당하 플레이어가 정지하는 시간")] private float stunTime = 1.0f;
     [SerializeField, Tooltip("피격당한 플레이어가 튕겨나가는 힘")] private float hitImpulse = 5.0f;
     [SerializeField, Tooltip("현재 플레이어가 장착한 장비")] private PlayerEquip playerEquip;

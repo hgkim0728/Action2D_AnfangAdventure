@@ -15,62 +15,62 @@ public class Monster : MonoBehaviour
     }
 
     // 몬스터 이동
-    [SerializeField, Tooltip("몬스터 이동속도")] internal float moveSpeed = 5.0f;
+    [SerializeField, Tooltip("몬스터 이동속도")] protected float moveSpeed = 5.0f;
     internal int monsterDir = 1;
 
     // 전투
     [Space]
-    [SerializeField, Tooltip("플레이어 위치")] internal Transform trsPlayer;
-    [SerializeField, Tooltip("플레이어를 추격하는 범위")] internal float traceRange = 5.0f;
+    [SerializeField, Tooltip("플레이어 위치")] protected Transform trsPlayer;
+    [SerializeField, Tooltip("플레이어를 추격하는 범위")] protected float traceRange = 5.0f;
 
-    [SerializeField, Tooltip("몬스터 공격 범위")] internal float monsterAttackRange = 1f;
-    [SerializeField, Tooltip("공격 쿨타임")] internal float attackCoolTime = 1.0f;
+    [SerializeField, Tooltip("몬스터 공격 범위")] protected float monsterAttackRange = 1f;
+    [SerializeField, Tooltip("공격 쿨타임")] protected float attackCoolTime = 1.0f;
     float coolTime;
-    [SerializeField, Tooltip("몬스터 공격력")] internal int monsterAtk = 1;
-    [SerializeField, Tooltip("공격을 한 상태인지 아닌지")] internal bool isAttack = false;
+    [SerializeField, Tooltip("몬스터 공격력")] protected int monsterAtk = 1;
+    [SerializeField, Tooltip("공격을 한 상태인지 아닌지")] protected bool isAttack = false;
 
-    [SerializeField, Tooltip("몬스터 체력")] internal int monsterHp = 2;
-    [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] internal float hitImpulse = 3.0f;
-    [SerializeField, Tooltip("몬스터가 피격당한 상태인지 아닌지")] internal bool isHit = false;
-    [SerializeField, Tooltip("몬스터가 죽었는지 아닌지")] internal bool isDie = false;
+    [SerializeField, Tooltip("몬스터 체력")] protected int monsterHp = 2;
+    [SerializeField, Tooltip("피격당했을 때 날아갈 거리")] protected float hitImpulse = 3.0f;
+    [SerializeField, Tooltip("몬스터가 피격당한 상태인지 아닌지")] protected bool isHit = false;
+    [SerializeField, Tooltip("몬스터가 죽었는지 아닌지")] protected bool isDie = false;
 
     // 상태 변경 시간
     [Space]
-    [SerializeField, Tooltip("상태 변경 최소 시간")] internal float minStateChangeTime = 2.0f;
-    [SerializeField, Tooltip("상태 변경 최대 시간")] internal float maxStateChangeTime = 4.0f;
-    [SerializeField] internal float stateChangeTime;
+    [SerializeField, Tooltip("상태 변경 최소 시간")] protected float minStateChangeTime = 2.0f;
+    [SerializeField, Tooltip("상태 변경 최대 시간")] protected float maxStateChangeTime = 4.0f;
+    [SerializeField] protected float stateChangeTime;
 
     // 컴포넌트
-    internal Rigidbody2D rigid;
-    internal BoxCollider2D monsterCol;
-    internal Animator anim;
+    protected Rigidbody2D rigid;
+    protected BoxCollider2D monsterCol;
+    protected Animator anim;
 
-    [SerializeField] internal MonsterState monsterState = MonsterState.Idle;
+    [SerializeField] MonsterState monsterState = MonsterState.Idle;
 
     public int MonsterAtk
     {
         get { return monsterAtk; }
     }
 
-    internal void Awake()
+    protected void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         stateChangeTime = 0.5f;
         coolTime = attackCoolTime;
     }
 
-    internal void Start()
+    protected void Start()
     {
         trsPlayer = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    internal void SetMonsterObj()
+    protected void SetMonsterObj()
     {
         anim = transform.GetComponentInChildren<Animator>();
         monsterCol = transform.GetComponentInChildren<BoxCollider2D>();
     }
 
-    internal void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
         if(monsterState != MonsterState.Trace && collision.gameObject.tag == "Player")
         {
@@ -106,7 +106,7 @@ public class Monster : MonoBehaviour
     /// 몬스터 상태 체크
     /// </summary>
     /// <returns></returns>
-    internal virtual void MonsterStateCheck()
+    protected virtual void MonsterStateCheck()
     {
         // 몬스터가 죽었다면 return
         if (isDie) return;
@@ -162,7 +162,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터 상태에 따라 행동하게 하는 함수
     /// </summary>
-    internal virtual void MonsterAction()
+    protected virtual void MonsterAction()
     {
         switch(monsterState)
         {
@@ -187,7 +187,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터의 이동을 담당하는 함수
     /// </summary>
-    internal virtual void MonsterMove()
+    protected virtual void MonsterMove()
     {
         // 몬스터의 속도와 방향대로 이동
         float x = moveSpeed * monsterDir;
@@ -199,7 +199,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터의 이동 방향에 따라 스프라이트의 방향 변경
     /// </summary>
-    internal virtual void MonsterTurn()
+    protected virtual void MonsterTurn()
     {
         if(monsterDir == -1)
         {
@@ -215,7 +215,7 @@ public class Monster : MonoBehaviour
     /// 몬스터가 이동중일 때 몬스터의 앞에 벽이 있는지와
     /// 길이 있는지를 체크
     /// </summary>
-    internal virtual void MoveCheck()
+    protected virtual void MoveCheck()
     {
         // 몬스터의 앞에 벽이 있는지를 체크
         RaycastHit2D wallHit = Physics2D.Raycast(monsterCol.bounds.center, Vector2.right * monsterDir,
@@ -248,7 +248,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// 몬스터가 추격 상태일 경우의 행동
     /// </summary>
-    internal virtual void Trace()
+    protected virtual void Trace()
     {
         // 몬스터와 플레이어의 거리
         float distance = Vector2.Distance(transform.position, trsPlayer.position);
@@ -306,7 +306,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    internal virtual void MonsterAttack()
+    protected virtual void MonsterAttack()
     {
         isAttack = true;    // 몬스터의 상태를 재장전(더 좋은 표현을 찾기 전까지는 이렇게 부르기로) 상태로
         anim.SetTrigger("Attack");  // 공격 애니메이션 재생

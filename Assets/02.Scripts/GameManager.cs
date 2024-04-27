@@ -30,7 +30,11 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("게임오버 패널")] GameObject gameoverPanel;
     [SerializeField, Tooltip("인벤토리 패널")] GameObject inventoryPanel;
     [SerializeField, Tooltip("플레이어 체력바")] Slider hpSlider;
-    [SerializeField, Tooltip("플레이어 체력")] TMP_Text hpText;
+    [SerializeField, Tooltip("플레이어 체력바 텍스트")] TMP_Text hpText;
+    [SerializeField, Tooltip("능력치 창의 플레이어 체력 텍스트")] TMP_Text hpAbiltyText;
+    [SerializeField, Tooltip("플레이어 공격력 텍스트")] TMP_Text atkText;
+
+    string hpTextContent;
 
     #endregion
 
@@ -47,6 +51,7 @@ public class GameManager : MonoBehaviour
 
         hpSlider.maxValue = maxHp;
         hpSlider.value = playerHp;
+        hpTextContent = $"{playerHp}/{maxHp}";
     }
 
     void Start()
@@ -63,7 +68,8 @@ public class GameManager : MonoBehaviour
     private void SetHPBar()
     {
         hpSlider.value = playerHp;
-        hpText.text = $"{playerHp}/{maxHp}";
+        hpTextContent = $"{playerHp}/{maxHp}";
+        hpText.text = hpTextContent;
     }
 
     private void InventorySet()
@@ -73,6 +79,8 @@ public class GameManager : MonoBehaviour
             if(inventoryPanel.activeSelf == false)
             {
                 inventoryPanel.SetActive(true);
+                hpAbiltyText.text = hpTextContent;
+                atkText.text = player.PlayerAtk.ToString();
                 Time.timeScale = 0f;
             }
             else

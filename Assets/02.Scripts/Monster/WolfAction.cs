@@ -10,7 +10,7 @@ public class WolfAction : Monster
         base.SetMonsterObj();
     }
 
-    internal override void MonsterAttack()
+    protected override void MonsterAttack()
     {
         base.MonsterAttack();
         rigid.velocity = Vector2.right * monsterDir * monsterAttackRange * 2;
