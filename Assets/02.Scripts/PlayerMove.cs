@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     // 플레이어 장비
-    enum PlayerEquip
+    public enum PlayerEquip
     {
         Sword,
         Wand,

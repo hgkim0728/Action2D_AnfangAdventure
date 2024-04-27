@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,30 +9,30 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    #region º¯¼ö
+    #region ë³€ìˆ˜
     
-    // ÇÃ·¹ÀÌ¾î
-    [SerializeField, Tooltip("ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ ¿ÀºêÁ§Æ®")] PlayerMove player;
+    // í”Œë ˆì´ì–´
+    [SerializeField, Tooltip("í”Œë ˆì´ì–´ ìºë¦­í„° ì˜¤ë¸Œì íŠ¸")] PlayerMove player;
     private int maxHp = 10;
-    [SerializeField, Tooltip("ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ Ã¼·Â")] private int playerHp = 10;
+    [SerializeField, Tooltip("í”Œë ˆì´ì–´ ìºë¦­í„° ì²´ë ¥")] private int playerHp = 10;
     public int PlayerHp
     {
         get { return playerHp; }
         set { playerHp = value; }
     }
 
-    // °ÔÀÓ
+    // ê²Œì„
     [Space]
-    [SerializeField, Tooltip("Æ©Åä¸®¾óÀ» Á¾·áÇß´ÂÁö")] bool tutorial = false;
+    [SerializeField, Tooltip("íŠœí† ë¦¬ì–¼ì„ ì¢…ë£Œí–ˆëŠ”ì§€")] bool tutorial = false;
 
     // UI
     [Space]
-    [SerializeField, Tooltip("°ÔÀÓ¿À¹ö ÆĞ³Î")] GameObject gameoverPanel;
-    [SerializeField, Tooltip("ÀÎº¥Åä¸® ÆĞ³Î")] GameObject inventoryPanel;
-    [SerializeField, Tooltip("ÇÃ·¹ÀÌ¾î Ã¼·Â¹Ù")] Slider hpSlider;
-    [SerializeField, Tooltip("ÇÃ·¹ÀÌ¾î Ã¼·Â¹Ù ÅØ½ºÆ®")] TMP_Text hpText;
-    [SerializeField, Tooltip("´É·ÂÄ¡ Ã¢ÀÇ ÇÃ·¹ÀÌ¾î Ã¼·Â ÅØ½ºÆ®")] TMP_Text hpAbiltyText;
-    [SerializeField, Tooltip("ÇÃ·¹ÀÌ¾î °ø°İ·Â ÅØ½ºÆ®")] TMP_Text atkText;
+    [SerializeField, Tooltip("ê²Œì„ì˜¤ë²„ íŒ¨ë„")] GameObject gameoverPanel;
+    [SerializeField, Tooltip("ì¸ë²¤í† ë¦¬ íŒ¨ë„")] GameObject inventoryPanel;
+    [SerializeField, Tooltip("í”Œë ˆì´ì–´ ì²´ë ¥ë°”")] Slider hpSlider;
+    [SerializeField, Tooltip("í”Œë ˆì´ì–´ ì²´ë ¥ë°” í…ìŠ¤íŠ¸")] TMP_Text hpText;
+    [SerializeField, Tooltip("ëŠ¥ë ¥ì¹˜ ì°½ì˜ í”Œë ˆì´ì–´ ì²´ë ¥ í…ìŠ¤íŠ¸")] TMP_Text hpAbiltyText;
+    [SerializeField, Tooltip("í”Œë ˆì´ì–´ ê³µê²©ë ¥ í…ìŠ¤íŠ¸")] TMP_Text atkText;
 
     string hpTextContent;
 
