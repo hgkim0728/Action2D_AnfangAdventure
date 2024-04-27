@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     [Space]
     [SerializeField, Tooltip("게임오버 패널")] GameObject gameoverPanel;
     [SerializeField, Tooltip("플레이어 체력바")] Slider hpSlider;
+    [SerializeField, Tooltip("플레이어 체력")] TMP_Text hpText;
 
     #endregion
 
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
     private void SetHPBar()
     {
         hpSlider.value = playerHp;
+        hpText.text = $"{playerHp}/{maxHp}";
     }
 
     public void GameOver()
