@@ -1,9 +1,9 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Equipment : Item
 {
-    [SerializeField, Tooltip("ÀåÂø ½Ã Ãß°¡µÇ´Â °ø°İ·Â")] protected int equipAtk;
+    [SerializeField, Tooltip("ì¥ì°© ì‹œ ì¶”ê°€ë˜ëŠ” ê³µê²©ë ¥")] protected int equipAtk;
     public int EquipAtk { get { return equipAtk; } }
 }

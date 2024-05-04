@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IPointerClickHandler
+public class Slot : MonoBehaviour
 {
-    
+    ItemImg itemImg;
+    Item item;  // 슬롯 안에 있는 아이템의 정보
+    int slotIdx = 0;    // 리스트에 들어간 순서
+    int itemCount = 0;  // 슬롯 안에 있는 아이템의 수
 
-    void Start()
+    private void Start()
     {
-        
+        itemImg = GetComponentInChildren<ItemImg>();
     }
 
-    void Update()
+    public void InsertItem(Item _item)
     {
-        
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        
+        item = _item;
+        itemCount++;
+        itemImg.InsertItemImg(item.ItemSprite);
     }
 }

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddeca3249f859704bbddef574f843955, type: 3}
+  m_Name: ShortDagger
+  m_EditorClassIdentifier: 
+  itemName: ShortDagger
+  itemSprite: {fileID: -4804603286184142772, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
+  equipAtk: 1
+  attackRange: 1

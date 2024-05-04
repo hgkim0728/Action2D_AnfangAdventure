@@ -9,12 +9,11 @@ public class PlayerMove : MonoBehaviour
     public enum PlayerEquip
     {
         Sword,
-        Wand,
         Bow
     }
 
     #region 변수
-    // 플레이어 이동
+    [Header("플레이어 이동")]
     [SerializeField, Tooltip("플레이어 이동 속도")] private float moveSpeed = 5.0f;
     [SerializeField, Tooltip("플레이어가 점프하는 힘")] private float jumpForce = 20.0f;
     [SerializeField, Tooltip("점프한 플레이어에게 적용될 중력")] private float gravity = 9.81f;
@@ -24,8 +23,8 @@ public class PlayerMove : MonoBehaviour
     private bool isGround = false;  // 플레이어가 땅에 닿았는지 여부
     private bool isJump = false;    // 플레이어가 점프중인지 아닌지
 
-    // 전투
     [Space]
+    [Header("플레이어 전투")]
     // 플레이어 체력은 게임매니저에
     [SerializeField, Tooltip("플레이어 공격 범위 리스트")] private List<float> listAttackRange = new List<float>();
     [SerializeField, Tooltip("플레이어 캐릭터 공격력")] private int playerAtk = 1;
