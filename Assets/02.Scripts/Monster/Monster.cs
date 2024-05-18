@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    internal int hitCount = 0;   // 플레이어 공격 작동 테스트용. 끝나면 꼭 지울 것
+    protected int hitCount = 0;   // 플레이어 공격 작동 테스트용. 끝나면 꼭 지울 것
 
-    internal enum MonsterState
+    protected enum MonsterState
     {
         Idle,
         Move,
@@ -44,6 +44,14 @@ public class Monster : MonoBehaviour
     protected Rigidbody2D rigid;
     protected BoxCollider2D monsterCol;
     protected Animator anim;
+
+    // 몬스터가 사냥당했을 때 떨어뜨릴 아이템
+    // 비어있을 수도 있음
+    [SerializeField] ItemPrefab dropItem;
+    public ItemPrefab DropItem
+    {
+        set { dropItem = value; }
+    }
 
     [SerializeField] MonsterState monsterState = MonsterState.Idle;
 
@@ -350,5 +358,10 @@ public class Monster : MonoBehaviour
     {
         isDie = true;
         anim.SetTrigger("Die");
+
+        if(dropItem != null)
+        {
+            dropItem.DropItem(transform.position);
+        }
     }
 }

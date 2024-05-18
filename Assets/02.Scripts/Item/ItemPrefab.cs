@@ -5,13 +5,15 @@ using UnityEngine;
 public class ItemPrefab : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;  // 스프라이트 렌더러 컴포넌트
-    BoxCollider2D boxCollider;
+    BoxCollider2D boxCollider;  // 박스컬라이더2D 컴포넌트
+    Transform playerTrs;    // 플레이어의 위치를 담을 변수
     Item itemSO;    // 아이템 스크립터블 오브젝트
     public Item ItemSO
     {
         get { return itemSO; }
         set { itemSO = value; }
     }
+    [SerializeField] float moveSpeed;
     int itemIdx;    // 아이템 매니저에서 관리하기 위한 번호
     public int ItemIdx
     {
@@ -19,6 +21,12 @@ public class ItemPrefab : MonoBehaviour
         set { itemIdx = value; }
     }
     bool usePrefab = false; // 현재 아이템 정보를 담고 게임 내에서 사용중인 프리팹인지 여부
+    public bool UsePrefab
+    {
+        get { return usePrefab; }
+        set { usePrefab = value; }
+    }
+    bool pickedUp = false;
 
     private void Awake()
     {
@@ -28,9 +36,28 @@ public class ItemPrefab : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.transform.CompareTag("Player"))
         {
             boxCollider.isTrigger = true;
+            playerTrs = collision.transform;
+            transform.position = Vector2.MoveTowards(transform.position, playerTrs.position, moveSpeed);
+            pickedUp = true;
+        }
+    }
+
+    private void Update()
+    {
+        if (pickedUp == true)
+        {
+            if (transform.position != playerTrs.position)
+            {
+                
+            }
+            else
+            {
+                // 아이템 획득 관련 처리를 먼저 한 다음에
+                CleanItemSO();
+            }
         }
     }
 
@@ -52,6 +79,16 @@ public class ItemPrefab : MonoBehaviour
     {
         itemSO = null;
         usePrefab = false;
+        pickedUp = false;
         spriteRenderer.sprite = null;
+        boxCollider.isTrigger = false;
+    }
+
+    public void DropItem(Vector2 _point)
+    {
+        gameObject.SetActive(true);
+        transform.position = _point;
+        boxCollider.isTrigger = false;
+        GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2, ForceMode2D.Impulse);
     }
 }
