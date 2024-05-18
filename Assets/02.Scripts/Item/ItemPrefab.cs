@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemPrefab : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;  // 스프라이트 렌더러 컴포넌트
+    BoxCollider2D boxCollider;
     Item itemSO;    // 아이템 스크립터블 오브젝트
     public Item ItemSO
     {
@@ -22,15 +23,35 @@ public class ItemPrefab : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    void Start()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if(collision.gameObject.tag == "Player")
+        {
+            boxCollider.isTrigger = true;
+        }
     }
 
-    void Update()
+    /// <summary>
+    /// 프리팹 안에 아이템 정보를 넣어주는 함수
+    /// </summary>
+    /// <param name="_itemSO">프리팹 안에 들어갈 아이템 정보</param>
+    public void FillItemSO(Item _itemSO)
     {
-        
+        itemSO = _itemSO;
+        usePrefab = true;   // 현재 아이템으로서 사용중이라는 것을 알려준다
+        spriteRenderer.sprite = itemSO.ItemSprite;  // 스프라이트 변경
+    }
+
+    /// <summary>
+    /// 프리팹 안을 비우는 함수
+    /// </summary>
+    public void CleanItemSO()
+    {
+        itemSO = null;
+        usePrefab = false;
+        spriteRenderer.sprite = null;
     }
 }
