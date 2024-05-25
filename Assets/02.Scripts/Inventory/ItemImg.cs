@@ -7,7 +7,11 @@ using TMPro;
 
 public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    Item item;  // 슬롯 안에 있는 아이템의 정보
+    Item itemInfo;  // 슬롯 안에 있는 아이템의 정보
+    public Item ItemInfo
+    {
+        get { return itemInfo; }
+    }
     int slotIdx = 0;    // 리스트에 들어간 순서
     public int SlotIdx
     {
@@ -20,11 +24,11 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         set { itemCount = value; }
     }
     private Image itemImg;  // 슬롯 안에 있는 아이템의 스프라이트
-    private CanvasGroup canvasGroup;
-    private RectTransform rect;
-    private TMP_Text itemCountTxt;
-    [SerializeField]private Canvas canvas;
-    private Transform preParent;
+    private CanvasGroup canvasGroup;    // 캔버스 그룹 컴포넌트
+    private RectTransform rect;     // 렉트트랜스폼 컴포넌트
+    private TMP_Text itemCountTxt;  // 소지한 아이템 개수를 표시할 텍스트
+    [SerializeField]private Canvas canvas;  // 캔버스
+    private Transform preParent;    // 원래 아이템이 있던 슬롯을 저장할 변수
 
     private void Awake()
     {
@@ -39,6 +43,9 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         canvas = FindObjectOfType<Canvas>();
     }
 
+    /// <summary>
+    /// 슬롯 이미지 비우는 함수
+    /// </summary>
     private void EmptyImg()
     {
         itemImg.sprite = null;
@@ -48,8 +55,8 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
     public void InsertItem(Item _item)
     {
-        item = _item;
-        itemImg.sprite = item.ItemSprite;
+        itemInfo = _item;
+        itemImg.sprite = itemInfo.ItemSprite;
         itemImg.color = Color.white;
         itemCount++;
     }

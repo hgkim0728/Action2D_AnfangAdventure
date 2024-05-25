@@ -48,8 +48,9 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        hpSlider.maxValue = maxHp;
-        hpSlider.value = playerHp;
+        // 플레이어 강화 때 그냥 함수로 만들어버리는 것도?
+        hpSlider.maxValue = maxHp;  // 체력바의 최대치를 플레이어 캐릭터의 최대 체력으로
+        hpSlider.value = playerHp;  // 체력바의 값을 현재 플레이어의 체력으로
     }
 
     void Start()
@@ -60,35 +61,48 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         SetHPBar();
-        InventorySet();
+        InventoryKey();
     }
 
+    /// <summary>
+    /// 체력바 안에 들어갈 텍스트의 내용을 반환함
+    /// </summary>
+    /// <returns></returns>
     private string HPTextContent()
     {
         return $"{playerHp}/{maxHp}";
     }
 
+    /// <summary>
+    /// 현재 플레이어의 체력에 따라 체력바의 값을 조정
+    /// </summary>
     private void SetHPBar()
     {
         hpSlider.value = playerHp;
         hpText.text = HPTextContent();
     }
 
-    private void InventorySet()
+    /// <summary>
+    /// 인벤토리를 열고 닫는 함수
+    /// </summary>
+    private void InventoryKey()
     {
+        // I키를 누르면
         if(Input.GetKeyDown(KeyCode.I))
         {
+            // 인벤토리가 닫혀있는 경우
             if(inventoryPanel.activeSelf == false)
             {
-                inventoryPanel.SetActive(true);
+                inventoryPanel.SetActive(true); // 인벤토리 창 활성화
+                // 능력치 창에 현재 플레이어의 체력과 공격력 표시
                 hpAbiltyText.text = HPTextContent();
                 atkText.text = player.PlayerAtk.ToString();
-                Time.timeScale = 0f;
+                Time.timeScale = 0f;    // 게임 내 시간 정지
             }
-            else
+            else // 인벤토리가 열려있는 경우
             {
-                inventoryPanel.SetActive(false);
-                Time.timeScale = 1f;
+                inventoryPanel.SetActive(false);    // 인벤토리 창 비활성화
+                Time.timeScale = 1f;    // 게임 내 시간 재생
             }
         }
     }

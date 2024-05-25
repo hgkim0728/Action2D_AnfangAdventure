@@ -22,11 +22,11 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject itemPrefab;
+    [SerializeField] private GameObject itemPrefab;     // 아이템 프리팹
     [SerializeField] private List<Item> listItemSo = new List<Item>();
     [SerializeField] private List<GameObject> listItemPrefabs = new List<GameObject>();
     [SerializeField] private List<PlayerOwnItem> listOwnItem = new List<PlayerOwnItem>();
-    [SerializeField] private int fillPrefabsCount = 10;
+    [SerializeField] private int fillPrefabsCount = 10;     // 한 번에 생성할 아이템 프리팹의 수
     private int kind;
 
     void Start()

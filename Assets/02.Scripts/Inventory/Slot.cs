@@ -11,7 +11,16 @@ public class Slot : MonoBehaviour, IDropHandler
         if (eventData != null)
         {
             eventData.pointerDrag.transform.SetParent(this.transform);
-            eventData.pointerDrag.transform.localPosition  = Vector3.zero;
+            eventData.pointerDrag.transform.localPosition = Vector3.zero;
+
+            //ItemImg child = GetComponentInChildren<ItemImg>();
+            //ItemImg ev = eventData.pointerDrag.transform.GetComponent<ItemImg>();
+            //Item i = ev.ItemInfo;
+
+            //if(child.ItemInfo != null)
+            //{
+            //    ev.InsertItem(child.ItemInfo);
+            //}
         }
     }
 }
