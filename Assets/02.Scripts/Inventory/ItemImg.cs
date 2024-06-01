@@ -7,7 +7,7 @@ using TMPro;
 
 public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    Item itemInfo;  // 슬롯 안에 있는 아이템의 정보
+    [SerializeField, Tooltip("실험용, 정상 작동 확인하면 컴포넌트에서는 안 보이게")]Item itemInfo;  // 슬롯 안에 있는 아이템의 정보
     public Item ItemInfo
     {
         get { return itemInfo; }
@@ -18,17 +18,13 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         get { return slotIdx; }
         set { slotIdx = value; }
     }
-    int itemCount = 0;  // 슬롯 안에 있는 아이템의 수
-    public int ItemCount
-    {
-        set { itemCount = value; }
-    }
     private Image itemImg;  // 슬롯 안에 있는 아이템의 스프라이트
     private CanvasGroup canvasGroup;    // 캔버스 그룹 컴포넌트
     private RectTransform rect;     // 렉트트랜스폼 컴포넌트
     private TMP_Text itemCountTxt;  // 소지한 아이템 개수를 표시할 텍스트
     [SerializeField]private Canvas canvas;  // 캔버스
     private Transform preParent;    // 원래 아이템이 있던 슬롯을 저장할 변수
+    public Transform PreParent { get { return preParent; } }
 
     private void Awake()
     {
@@ -46,11 +42,12 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     /// <summary>
     /// 슬롯 이미지 비우는 함수
     /// </summary>
-    private void EmptyImg()
+    public void ClearImg()
     {
         itemImg.sprite = null;
         itemImg.color = Color.clear;
         itemCountTxt.text = null;
+        itemInfo = null;
     }
 
     public void InsertItem(Item _item)
@@ -58,29 +55,23 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         itemInfo = _item;
         itemImg.sprite = itemInfo.ItemSprite;
         itemImg.color = Color.white;
-        itemCount++;
+
+        SetItemCount();
     }
 
-    public void SetItemCount(int _count)
+    public void SetItemCount()
     {
-        if(_count == 0)
-        {
-            itemCount++;
-        }
-        else
-        {
-            itemCount--;
-        }
+        int count = itemInfo.ItemCount;
 
-        if(itemCount == 0)
+        if(count == 0)
         {
-            EmptyImg();
+            ClearImg();
         }
-        else if(itemCount > 1)
+        else if(count > 1)
         {
-            itemCountTxt.text = itemCount.ToString();
+            itemCountTxt.text = count.ToString();
         }
-        else if(itemCount == 1)
+        else if(count == 1)
         {
             itemCountTxt.text = null;
         }
@@ -88,6 +79,8 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (itemInfo == null) return;
+
         preParent = transform.parent;
         transform.SetParent(canvas.transform);
         canvasGroup.blocksRaycasts = false;

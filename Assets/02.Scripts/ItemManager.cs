@@ -22,17 +22,23 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject itemPrefab;     // 아이템 프리팹
+    [SerializeField, Tooltip("아이템 프리팹")] private GameObject itemPrefab;
+    [SerializeField, Tooltip("인벤토리 슬롯 프리팹")] private GameObject slotPrefab;
+
+    [SerializeField, Tooltip("인벤토리 슬롯이 들어갈 위치")] private Transform inventoryContent;
+
     [SerializeField] private List<Item> listItemSo = new List<Item>();
     [SerializeField] private List<GameObject> listItemPrefabs = new List<GameObject>();
-    [SerializeField] private List<PlayerOwnItem> listOwnItem = new List<PlayerOwnItem>();
-    [SerializeField] private int fillPrefabsCount = 10;     // 한 번에 생성할 아이템 프리팹의 수
-    private int kind;
+    [SerializeField, Tooltip("인벤토리 슬롯 리스트")] private List<GameObject> listInventorySlot = new List<GameObject>();
+    [SerializeField, Tooltip("한 번에 생성할 아이템 프리팹의 수")] private int fillPrefabsCount = 10;
+    private int itemType;
+    [SerializeField, Tooltip("인벤토리 슬롯 개수")] private int inventorySlotCount = 20;
 
     void Start()
     {
-        kind = listItemSo.Count;
+        itemType = listItemSo.Count;
         FillPrefab();
+        CreateInventorySlot();
     }
 
     void Update()
@@ -44,7 +50,7 @@ public class ItemManager : MonoBehaviour
     {
         for(int i = 0; i < fillPrefabsCount; i++)
         {
-            Random.Range(0, kind);
+            Random.Range(0, itemType);
             GameObject go = GameObject.Instantiate(itemPrefab);
             listItemPrefabs.Add(go);
             ItemPrefab sc = go.GetComponent<ItemPrefab>();
@@ -54,24 +60,32 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public void PickUpItem(Item _itemSo)
+    private void CreateInventorySlot()
     {
-        bool ownItem = false;
-        string pickUpItemName = _itemSo.ItemName;
-
-        foreach(PlayerOwnItem p in listOwnItem)
+        for(int i = 0; i < inventorySlotCount; i++)
         {
-            if(pickUpItemName == p.ItemSc.ItemName)
-            {
-                ownItem = true;
-                p.Count++;
-            }
-        }
-
-        if(ownItem == false)
-        {
-            PlayerOwnItem newItem = new PlayerOwnItem(_itemSo);
-            listOwnItem.Add(newItem);
+            GameObject go = GameObject.Instantiate(slotPrefab, inventoryContent);
         }
     }
+
+    //public void PickUpItem(Item _itemSo)
+    //{
+    //    bool ownItem = false;
+    //    string pickUpItemName = _itemSo.ItemName;
+
+    //    foreach(PlayerOwnItem p in listOwnItem)
+    //    {
+    //        if(pickUpItemName == p.ItemSc.ItemName)
+    //        {
+    //            ownItem = true;
+    //            p.Count++;
+    //        }
+    //    }
+
+    //    if(ownItem == false)
+    //    {
+    //        PlayerOwnItem newItem = new PlayerOwnItem(_itemSo);
+    //        listOwnItem.Add(newItem);
+    //    }
+    //}
 }

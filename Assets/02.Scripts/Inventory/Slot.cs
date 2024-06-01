@@ -10,17 +10,26 @@ public class Slot : MonoBehaviour, IDropHandler
     {
         if (eventData != null)
         {
+            ItemImg child = GetComponentInChildren<ItemImg>();
+            ItemImg ev = eventData.pointerDrag.transform.GetComponent<ItemImg>();
+            Item i = ev.ItemInfo;
+
+            if (child.ItemInfo != null)
+            {
+                ev.InsertItem(child.ItemInfo);
+                child.InsertItem(i);
+            }
+            else
+            {
+                ev.ClearImg();
+                child.InsertItem(i);
+            }
+
             eventData.pointerDrag.transform.SetParent(this.transform);
             eventData.pointerDrag.transform.localPosition = Vector3.zero;
 
-            //ItemImg child = GetComponentInChildren<ItemImg>();
-            //ItemImg ev = eventData.pointerDrag.transform.GetComponent<ItemImg>();
-            //Item i = ev.ItemInfo;
-
-            //if(child.ItemInfo != null)
-            //{
-            //    ev.InsertItem(child.ItemInfo);
-            //}
+            child.gameObject.transform.SetParent(ev.PreParent);
+            child.gameObject.transform.localPosition = Vector3.zero;
         }
     }
 }
