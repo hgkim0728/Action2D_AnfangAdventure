@@ -36,12 +36,14 @@ public class ItemPrefab : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // 충돌한 오브젝트의 태그가 플레이어라면
         if(collision.transform.CompareTag("Player"))
         {
-            boxCollider.isTrigger = true;
-            playerTrs = collision.transform;
+            boxCollider.isTrigger = true;   // 아이템이 플레이어한테 밀려나가는 거 방지
+            playerTrs = collision.transform;    // 플레이어 위치 가져오기
+            // 플레이어를 향해 이동
             transform.position = Vector2.MoveTowards(transform.position, playerTrs.position, moveSpeed);
-            pickedUp = true;
+            pickedUp = true;    // 주워진 상태로 변경
         }
     }
 

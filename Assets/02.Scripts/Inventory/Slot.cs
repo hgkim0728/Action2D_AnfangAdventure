@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
+    private int slotIdx;    // 슬롯 인덱스
+    public int SlotIdx
+    {
+        get { return slotIdx; }
+        set { slotIdx = value; }
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData != null)

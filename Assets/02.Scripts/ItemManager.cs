@@ -46,6 +46,9 @@ public class ItemManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 아이템 프리팹 오브젝트 생성
+    /// </summary>
     private void FillPrefab()
     {
         for(int i = 0; i < fillPrefabsCount; i++)
@@ -60,11 +63,16 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 인벤토리 슬롯 생성
+    /// </summary>
     private void CreateInventorySlot()
     {
         for(int i = 0; i < inventorySlotCount; i++)
         {
             GameObject go = GameObject.Instantiate(slotPrefab, inventoryContent);
+            listInventorySlot.Add(go);
+            go.GetComponent<Slot>().SlotIdx = i;
         }
     }
 
