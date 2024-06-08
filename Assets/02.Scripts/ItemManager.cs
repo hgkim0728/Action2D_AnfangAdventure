@@ -4,40 +4,41 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    class PlayerOwnItem
-    {
-        private int count = 1;
-        public int Count
-        {
-            get { return count; }
-            set { count = value; }
-        }
-        private Item itemSc;
-        public Item ItemSc
-        { get { return itemSc; } }
+    //class PlayerOwnItem
+    //{
+    //    private int count = 1;
+    //    public int Count
+    //    {
+    //        get { return count; }
+    //        set { count = value; }
+    //    }
+    //    private Item itemSc;
+    //    public Item ItemSc
+    //    { get { return itemSc; } }
 
-        public PlayerOwnItem(Item _itemSc)
-        {
-            itemSc = _itemSc;
-        }
-    }
+    //    public PlayerOwnItem(Item _itemSc)
+    //    {
+    //        itemSc = _itemSc;
+    //    }
+    //}
 
     [SerializeField, Tooltip("아이템 프리팹")] private GameObject itemPrefab;
     [SerializeField, Tooltip("인벤토리 슬롯 프리팹")] private GameObject slotPrefab;
 
     [SerializeField, Tooltip("인벤토리 슬롯이 들어갈 위치")] private Transform inventoryContent;
 
-    [SerializeField] private List<Item> listItemSo = new List<Item>();
+    //[SerializeField] private List<Item> listItemSo = new List<Item>();
+    [SerializeField, Tooltip("인벤토리 스크립터블 오브젝트")] private InventorySO inventorySO;
     [SerializeField] private List<GameObject> listItemPrefabs = new List<GameObject>();
     [SerializeField, Tooltip("인벤토리 슬롯 리스트")] private List<GameObject> listInventorySlot = new List<GameObject>();
     [SerializeField, Tooltip("한 번에 생성할 아이템 프리팹의 수")] private int fillPrefabsCount = 10;
-    private int itemType;
+    private int itemTypeCount;
     [SerializeField, Tooltip("인벤토리 슬롯 개수")] private int inventorySlotCount = 20;
 
     void Start()
     {
-        itemType = listItemSo.Count;
-        FillPrefab();
+        itemTypeCount = inventorySO.Items.Length;
+        //CreateItemPrefab();
         CreateInventorySlot();
     }
 
@@ -49,15 +50,15 @@ public class ItemManager : MonoBehaviour
     /// <summary>
     /// 아이템 프리팹 오브젝트 생성
     /// </summary>
-    private void FillPrefab()
+    private void CreateItemPrefab()
     {
         for(int i = 0; i < fillPrefabsCount; i++)
         {
-            Random.Range(0, itemType);
+            Random.Range(0, itemTypeCount);
             GameObject go = GameObject.Instantiate(itemPrefab);
             listItemPrefabs.Add(go);
             ItemPrefab sc = go.GetComponent<ItemPrefab>();
-            sc.ItemIdx = i;
+            sc.ItemPrefabIdx = i;
 
 
         }
@@ -68,11 +69,13 @@ public class ItemManager : MonoBehaviour
     /// </summary>
     private void CreateInventorySlot()
     {
+        // 미리 설정해둔 횟수만큼 슬롯 게임오브젝트 생성 반복
         for(int i = 0; i < inventorySlotCount; i++)
         {
+            // 슬롯 게임오브젝트를 만들어 인벤토리 콘텐츠의 자식오브젝트로 둠
             GameObject go = GameObject.Instantiate(slotPrefab, inventoryContent);
-            listInventorySlot.Add(go);
-            go.GetComponent<Slot>().SlotIdx = i;
+            listInventorySlot.Add(go);  // 슬롯 리스트에 추가
+            go.GetComponent<Slot>().SlotIdx = i;    // 슬롯 스크립트 내의 슬롯 인덱스에 몇 번째 슬롯인지 표시
         }
     }
 

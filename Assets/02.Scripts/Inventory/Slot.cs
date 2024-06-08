@@ -12,31 +12,33 @@ public class Slot : MonoBehaviour, IDropHandler
         get { return slotIdx; }
         set { slotIdx = value; }
     }
+    [SerializeField, Tooltip("자식오브젝트로 가지고 있는 아이템 이미지 표시용 게임오브젝트")] private ItemImg itemImg;
 
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData != null)
         {
-            ItemImg child = GetComponentInChildren<ItemImg>();
             ItemImg ev = eventData.pointerDrag.transform.GetComponent<ItemImg>();
             Item i = ev.ItemInfo;
 
-            if (child.ItemInfo != null)
+            if (itemImg.ItemInfo != null)
             {
-                ev.InsertItem(child.ItemInfo);
-                child.InsertItem(i);
+                ev.InsertItem(itemImg.ItemInfo);
+                itemImg.InsertItem(i);
             }
             else
             {
                 ev.ClearImg();
-                child.InsertItem(i);
+                itemImg.InsertItem(i);
             }
 
             eventData.pointerDrag.transform.SetParent(this.transform);
             eventData.pointerDrag.transform.localPosition = Vector3.zero;
 
-            child.gameObject.transform.SetParent(ev.PreParent);
-            child.gameObject.transform.localPosition = Vector3.zero;
+            itemImg.gameObject.transform.SetParent(ev.PreParent);
+            itemImg.gameObject.transform.localPosition = Vector3.zero;
+
+            itemImg = ev;
         }
     }
 }

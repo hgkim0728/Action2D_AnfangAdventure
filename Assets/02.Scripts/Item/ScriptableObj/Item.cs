@@ -17,7 +17,7 @@ public class Item : ScriptableObject
     [SerializeField, Tooltip("현재 플레이어가 소지한 개수")] protected int itemCount = 0;
     public int ItemCount {  get {  return itemCount; } }
 
-    public void GainItem()
+    public void GetItem()
     {
         itemCount++;
     }

@@ -61,9 +61,16 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.tag == "Monster" && isDie == false && isHit == false)
+        if (isDie == false && isHit == false)
         {
-            PlayerHit(collision.transform, collision.transform.GetComponent<Monster>().MonsterAtk);
+            if (collision.transform.tag == "Monster")
+            {
+                PlayerHit(collision.transform, collision.transform.GetComponent<Monster>().MonsterAtk);
+            }
+            else if(collision.transform.tag == "Item")
+            {
+                collision.gameObject.GetComponent<ItemPrefab>().PickedItem();
+            }
         }
     }
 
