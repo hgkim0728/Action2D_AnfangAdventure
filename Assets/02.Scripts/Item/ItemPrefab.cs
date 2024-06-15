@@ -68,7 +68,7 @@ public class ItemPrefab : MonoBehaviour
     /// 프리팹 안에 아이템 정보를 넣어주는 함수
     /// </summary>
     /// <param name="_itemSO">프리팹 안에 들어갈 아이템 정보</param>
-    public void InsertItemSO(Item _itemSO)
+    public void InsertItemInfo(Item _itemSO)
     {
         itemSO = _itemSO;
         usePrefab = true;   // 현재 아이템으로서 사용중이라는 것을 알려준다
@@ -78,7 +78,7 @@ public class ItemPrefab : MonoBehaviour
     /// <summary>
     /// 프리팹 안을 비우는 함수
     /// </summary>
-    public void ClearItemSO()
+    public void ClearItemInfo()
     {
         itemSO = null;
         usePrefab = false;
@@ -95,10 +95,13 @@ public class ItemPrefab : MonoBehaviour
         GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2, ForceMode2D.Impulse);
     }
 
+    /// <summary>
+    /// 플레이어가 아이템을 주웠을 때
+    /// </summary>
     public void PickedItem()
     {
         int itemIdx = itemSO.ItemIdx;
         inventorySO.Items[itemIdx].GetItem();
-        ClearItemSO();
+        ClearItemInfo();
     }
 }

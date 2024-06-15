@@ -87,17 +87,22 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     // 인벤토리의 아이템 이미지 드래그를 시작할 때
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // 이 게임오브젝트를 자식으로 가지고 있는
+        // 슬롯이 비어있을 경우에는 return
         if (itemInfo == null) return;
 
-        preParent = transform.parent;
-        transform.SetParent(canvas.transform);
+        preParent = transform.parent;   // 원래 부모 오브젝트인 슬롯을 저장
+        transform.SetParent(canvas.transform);  // 부모 오브젝트를 캔버스로
         canvasGroup.blocksRaycasts = false;
-        transform.SetAsLastSibling();
+        transform.SetAsLastSibling();   // 드래그중인 이미지가 맨앞으로 나오도록
     }
 
     // 인벤토리의 아이템 이미지를 드래그중일 때
     public void OnDrag(PointerEventData eventData)
     {
+        if (itemInfo == null) return;
+
+        // 드래그중인 마우스를 따라서 이미지가 움직이도록
         Vector3 curPos = Camera.main.ScreenToWorldPoint(eventData.position);
         curPos.z = 0;
         rect.transform.position = curPos;
@@ -106,10 +111,11 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     // 인벤토리의 아이템 이미지 드래그를 끝냈을 때
     public void OnEndDrag(PointerEventData eventData)
     {
+        // 드래그가 끝났을 때 이미지의 부모 오브젝트가 캔버스라면
         if(transform.parent == canvas.transform)
         {
-            transform.SetParent(preParent);
-            rect.localPosition = Vector2.zero;
+            transform.SetParent(preParent); // 이미지의 부모 오브젝트를 원래 부모였던 슬롯으로
+            rect.localPosition = Vector2.zero;  // 드래그 전 위치로 돌아가도록
         }
 
         canvasGroup.blocksRaycasts = true;

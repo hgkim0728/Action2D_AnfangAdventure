@@ -52,13 +52,14 @@ public class ItemManager : MonoBehaviour
     /// </summary>
     private void CreateItemPrefab()
     {
+        // 정해둔 개수만큼 생성
         for(int i = 0; i < fillPrefabsCount; i++)
         {
             Random.Range(0, itemTypeCount);
-            GameObject go = GameObject.Instantiate(itemPrefab);
-            listItemPrefabs.Add(go);
+            GameObject go = GameObject.Instantiate(itemPrefab); // 아이템 프리팹 게임오브젝트 생성
+            listItemPrefabs.Add(go);    // 리스트에 추가
             ItemPrefab sc = go.GetComponent<ItemPrefab>();
-            sc.ItemPrefabIdx = i;
+            sc.ItemPrefabIdx = i;   // 몇번째로 생성된 아이템 프리팹인지 정보 저장
 
 
         }
