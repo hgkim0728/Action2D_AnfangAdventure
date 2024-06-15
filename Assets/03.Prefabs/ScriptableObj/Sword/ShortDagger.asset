@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd88e5fa32547042ba5ed7559b004ec, type: 3}
   m_Name: ShortDagger
   m_EditorClassIdentifier: 
-  Stats: []
   type: 0
-  itemName: 
-  itemSprite: {fileID: 0}
+  itemName: ShortDagger
+  itemDescription: "\uC791\uC740 \uB2E8\uAC80. \uBAA8\uD5D8\uC744 \uC2DC\uC791\uD55C
+    \uCD08\uBCF4\uC790\uC758 \uCE5C\uAD6C."
+  itemSprite: {fileID: -4804603286184142772, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
   itemIdx: 0
+  Stats:
+  - name: str
+    value: 1
   itemCount: 0
