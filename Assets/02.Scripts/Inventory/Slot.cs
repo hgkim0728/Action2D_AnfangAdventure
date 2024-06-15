@@ -23,13 +23,13 @@ public class Slot : MonoBehaviour, IDropHandler
 
             if (itemImg.ItemInfo != null)
             {
-                ev.InsertItem(itemImg.ItemInfo);
-                itemImg.InsertItem(i);
+                ev.InsertItemInfo(itemImg.ItemInfo);
+                itemImg.InsertItemInfo(i);
             }
             else
             {
                 ev.ClearImg();
-                itemImg.InsertItem(i);
+                itemImg.InsertItemInfo(i);
             }
 
             eventData.pointerDrag.transform.SetParent(this.transform);

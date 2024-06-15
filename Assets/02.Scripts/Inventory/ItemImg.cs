@@ -50,16 +50,23 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         itemInfo = null;
     }
 
-    public void InsertItem(Item _item)
+    /// <summary>
+    /// 플레이어가 획득한 아이템이 인벤토리 슬롯에 표시되도록 아이템 정보를 집어넣는 기능
+    /// </summary>
+    /// <param name="_item">슬롯에 들어갈 아이템</param>
+    public void InsertItemInfo(Item _item)
     {
         itemInfo = _item;
         itemImg.sprite = itemInfo.ItemSprite;
         itemImg.color = Color.white;
 
-        SetItemCount();
+        SetItemCountTxt();
     }
 
-    public void SetItemCount()
+    /// <summary>
+    /// 소지한 아이템의 개수를 표시하는 텍스트의 내용을 수정하는 기능
+    /// </summary>
+    public void SetItemCountTxt()
     {
         int count = itemInfo.ItemCount;
 
@@ -77,6 +84,7 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         }
     }
 
+    // 인벤토리의 아이템 이미지 드래그를 시작할 때
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (itemInfo == null) return;
@@ -87,6 +95,7 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         transform.SetAsLastSibling();
     }
 
+    // 인벤토리의 아이템 이미지를 드래그중일 때
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 curPos = Camera.main.ScreenToWorldPoint(eventData.position);
@@ -94,6 +103,7 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         rect.transform.position = curPos;
     }
 
+    // 인벤토리의 아이템 이미지 드래그를 끝냈을 때
     public void OnEndDrag(PointerEventData eventData)
     {
         if(transform.parent == canvas.transform)
