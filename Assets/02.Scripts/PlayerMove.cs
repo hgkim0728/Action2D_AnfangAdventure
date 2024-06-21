@@ -386,14 +386,4 @@ public class PlayerMove : MonoBehaviour
     //{
     //    curAttackRange.SetActive(false);    // 공격 범위 비활성화
     //}
-
-    // 화면 비율 맞추기 코드
-    private void S()
-    {
-        float targetRatio = 9f / 16f;
-        float ratio = (float)Screen.width / (float)Screen.height;
-        float scaleHeight = ratio / targetRatio;
-        float fixedWidth = (float)Screen.width / scaleHeight;
-        Screen.SetResolution((int)fixedWidth, Screen.height, true);
-    }
 }
