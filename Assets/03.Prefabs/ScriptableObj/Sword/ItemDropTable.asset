@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73ba2726f7c71144bccf6591c68ce02, type: 3}
   m_Name: ItemDropTable
   m_EditorClassIdentifier: 
-  listDropItems: []
+  listDropItems:
+  - item: {fileID: 0}
+    weight: 0.3
