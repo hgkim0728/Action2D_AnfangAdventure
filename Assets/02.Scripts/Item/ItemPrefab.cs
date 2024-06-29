@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemPrefab : MonoBehaviour
 {
-    [SerializeField, Tooltip("인벤토리 스크립터블 오브젝트")] private InventorySO inventorySO;
+    //[SerializeField, Tooltip("인벤토리 스크립터블 오브젝트")] private InventorySO inventorySO;
     SpriteRenderer spriteRenderer;  // 스프라이트 렌더러 컴포넌트
     BoxCollider2D boxCollider;  // 박스컬라이더2D 컴포넌트
     Transform playerTrs;    // 플레이어의 위치를 담을 변수
@@ -101,7 +101,7 @@ public class ItemPrefab : MonoBehaviour
     public void PickedItem()
     {
         int itemIdx = itemSO.ItemIdx;
-        inventorySO.Items[itemIdx].GetItem();
+        //inventorySO.Items[itemIdx].GetItem();
         ClearItemInfo();
     }
 }

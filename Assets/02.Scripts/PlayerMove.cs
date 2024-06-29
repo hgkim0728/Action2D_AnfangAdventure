@@ -36,9 +36,9 @@ public class PlayerMove : MonoBehaviour
     private bool isHit = false;     // 플레이어 피격 여부
     private bool isDie = false;     // 플레이어 생존여부
 
-    [Space]
-    [Header("인벤토리")]
-    [SerializeField, Tooltip("인벤토리")] InventorySO inventorySO;
+    //[Space]
+    //[Header("인벤토리")]
+    //[SerializeField, Tooltip("인벤토리")] InventorySO inventorySO;
 
     // 컴포넌트
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트

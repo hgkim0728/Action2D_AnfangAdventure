@@ -45,13 +45,8 @@ public class Monster : MonoBehaviour
     protected BoxCollider2D monsterCol;
     protected Animator anim;
 
-    // 몬스터가 사냥당했을 때 떨어뜨릴 아이템
-    // 비어있을 수도 있음
-    [SerializeField] ItemPrefab dropItem;
-    public ItemPrefab DropItem
-    {
-        set { dropItem = value; }
-    }
+    // 아이템 테이블
+    [SerializeField] SOItemDropTable dropTable;
 
     [SerializeField] MonsterState monsterState = MonsterState.Idle;
 
@@ -359,9 +354,6 @@ public class Monster : MonoBehaviour
         isDie = true;
         anim.SetTrigger("Die");
 
-        if(dropItem != null)
-        {
-            dropItem.DropItem(transform.position);
-        }
+        // 드롭테이블에 랜덤 아이템을 정하게 하고 아이템 매니저한테 아이템 프리팹을 받아오게 할 것
     }
 }

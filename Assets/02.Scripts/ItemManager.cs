@@ -28,7 +28,7 @@ public class ItemManager : MonoBehaviour
     [SerializeField, Tooltip("인벤토리 슬롯이 들어갈 위치")] private Transform inventoryContent;
 
     //[SerializeField] private List<Item> listItemSo = new List<Item>();
-    [SerializeField, Tooltip("인벤토리 스크립터블 오브젝트")] private InventorySO inventorySO;
+    //[SerializeField, Tooltip("인벤토리 스크립터블 오브젝트")] private InventorySO inventorySO;
     [SerializeField] private List<GameObject> listItemPrefabs = new List<GameObject>();
     [SerializeField, Tooltip("인벤토리 슬롯 리스트")] private List<GameObject> listInventorySlot = new List<GameObject>();
     [SerializeField, Tooltip("한 번에 생성할 아이템 프리팹의 수")] private int fillPrefabsCount = 10;
@@ -37,7 +37,7 @@ public class ItemManager : MonoBehaviour
 
     void Start()
     {
-        itemTypeCount = inventorySO.Items.Length;
+        //itemTypeCount = inventorySO.Items.Length;
         //CreateItemPrefab();
         CreateInventorySlot();
     }
@@ -55,7 +55,7 @@ public class ItemManager : MonoBehaviour
         // 정해둔 개수만큼 생성
         for(int i = 0; i < fillPrefabsCount; i++)
         {
-            Random.Range(0, itemTypeCount);
+            //Random.Range(0, itemTypeCount);
             GameObject go = GameObject.Instantiate(itemPrefab); // 아이템 프리팹 게임오브젝트 생성
             listItemPrefabs.Add(go);    // 리스트에 추가
             ItemPrefab sc = go.GetComponent<ItemPrefab>();

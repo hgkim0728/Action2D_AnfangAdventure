@@ -2917,7 +2917,6 @@ MonoBehaviour:
   stunTime: 1
   hitImpulse: 2.5
   playerEquip: 0
-  inventorySO: {fileID: 0}
 --- !u!50 &1205218613
 Rigidbody2D:
   serializedVersion: 4
@@ -3607,7 +3606,6 @@ MonoBehaviour:
   itemPrefab: {fileID: 8425290712632622264, guid: 4ead2f95b50574c40989d40c2e8a375f, type: 3}
   slotPrefab: {fileID: 2168131403088398983, guid: 7c2927ba03afbee4db35951a185b058d, type: 3}
   inventoryContent: {fileID: 398581521}
-  inventorySO: {fileID: 11400000, guid: 9cb534b2e87ed9849b328268eaaafbd9, type: 2}
   listItemPrefabs: []
   listInventorySlot: []
   fillPrefabsCount: 10
