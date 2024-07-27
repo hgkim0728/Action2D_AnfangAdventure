@@ -32,7 +32,7 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private List<GameObject> listItemPrefabs = new List<GameObject>();
     [SerializeField, Tooltip("인벤토리 슬롯 리스트")] private List<GameObject> listInventorySlot = new List<GameObject>();
     [SerializeField, Tooltip("한 번에 생성할 아이템 프리팹의 수")] private int fillPrefabsCount = 10;
-    private int itemTypeCount;
+    //private int itemTypeCount;
     [SerializeField, Tooltip("인벤토리 슬롯 개수")] private int inventorySlotCount = 20;
 
     void Start()
