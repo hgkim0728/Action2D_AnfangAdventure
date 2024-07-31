@@ -14,7 +14,7 @@ public class ItemPrefab : MonoBehaviour
         get { return itemSO; }
         set { itemSO = value; }
     }
-    [SerializeField] float moveSpeed;
+    [SerializeField, Tooltip("플레이어가 주운 아이템이 플레이어를 향해 이동하는 속도")] float moveSpeed;
     int itemPrefabIdx;    // 아이템 매니저에서 관리하기 위한 번호
     public int ItemPrefabIdx
     {
@@ -35,18 +35,15 @@ public class ItemPrefab : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // 충돌한 오브젝트의 태그가 플레이어라면
-        if(collision.transform.CompareTag("Player"))
-        {
-            boxCollider.isTrigger = true;   // 아이템이 플레이어한테 밀려나가는 거 방지
-            playerTrs = collision.transform;    // 플레이어 위치 가져오기
-            // 플레이어를 향해 이동
-            transform.position = Vector2.MoveTowards(transform.position, playerTrs.position, moveSpeed);
-            //pickedUp = true;    // 주워진 상태로 변경
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    // 충돌한 오브젝트의 태그가 플레이어라면
+    //    if(collision.transform.CompareTag("Player"))
+    //    {
+            
+    //        //pickedUp = true;    // 주워진 상태로 변경
+    //    }
+    //}
 
     private void Update()
     {
@@ -87,6 +84,10 @@ public class ItemPrefab : MonoBehaviour
         boxCollider.isTrigger = false;
     }
 
+    /// <summary>
+    /// 플레이어가 처치한 몬스터가 아이템을 드랍할 때 호출
+    /// </summary>
+    /// <param name="_point">아이템을 드랍할 위치</param>
     public void DropItem(Vector2 _point)
     {
         gameObject.SetActive(true);
@@ -98,9 +99,14 @@ public class ItemPrefab : MonoBehaviour
     /// <summary>
     /// 플레이어가 아이템을 주웠을 때
     /// </summary>
-    public void PickedItem()
+    public void PickedItem(Transform tr)
     {
         int itemIdx = itemSO.ItemIdx;
+
+        boxCollider.isTrigger = true;   // 아이템이 플레이어한테 밀려나가는 거 방지
+        playerTrs = tr;    // 플레이어 위치 가져오기
+        // 플레이어를 향해 이동
+        transform.position = Vector2.MoveTowards(transform.position, playerTrs.position, moveSpeed);
         //inventorySO.Items[itemIdx].GetItem();
         ClearItemInfo();
     }

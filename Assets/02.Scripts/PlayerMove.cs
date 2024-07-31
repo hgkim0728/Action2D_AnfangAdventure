@@ -69,7 +69,7 @@ public class PlayerMove : MonoBehaviour
             }
             else if(collision.transform.tag == "Item")
             {
-                collision.gameObject.GetComponent<ItemPrefab>().PickedItem();
+                collision.gameObject.GetComponent<ItemPrefab>().PickedItem(transform);
             }
         }
     }

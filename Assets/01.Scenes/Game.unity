@@ -2697,7 +2697,7 @@ MonoBehaviour:
   minStateChangeTime: 2
   maxStateChangeTime: 4
   stateChangeTime: 0
-  dropItem: {fileID: 0}
+  dropTable: {fileID: 0}
   monsterState: 0
 --- !u!1 &1160213715
 GameObject:

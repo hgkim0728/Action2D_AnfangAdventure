@@ -357,5 +357,9 @@ public class Monster : MonoBehaviour
         // 드롭테이블에 랜덤 아이템을 정하게 하고 아이템 매니저한테 아이템 프리팹을 받아오게 할 것
         Item dropItem = dropTable.PickItem();
 
+        if(dropItem != null)
+        {
+
+        }
     }
 }

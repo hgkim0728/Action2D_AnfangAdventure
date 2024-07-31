@@ -80,6 +80,8 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+
+
     //public void PickUpItem(Item _itemSo)
     //{
     //    bool ownItem = false;
