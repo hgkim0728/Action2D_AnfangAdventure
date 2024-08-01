@@ -38,7 +38,7 @@ public class ItemManager : MonoBehaviour
     void Start()
     {
         //itemTypeCount = inventorySO.Items.Length;
-        //CreateItemPrefab();
+        CreateItemPrefab();
         CreateInventorySlot();
     }
 
@@ -80,7 +80,25 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public ItemPrefab PickItemPrefab(Item _item)
+    {
+        int itemPreIdx = 0; // 리스트에 있는 아이템 프리팹 체크용
 
+        foreach(GameObject go in listItemPrefabs)
+        {
+            ItemPrefab itemPrefab = go.GetComponent<ItemPrefab>();   // 몬스터에게 전달할 아이템 프리팹을 넣을 변수
+            
+            if (itemPrefab.UsePrefab == false)
+            {
+                return itemPrefab;
+            }
+
+            itemPreIdx++;
+        }
+
+        CreateItemPrefab();
+        return listItemPrefabs[itemPreIdx].GetComponent<ItemPrefab>();
+    }
 
     //public void PickUpItem(Item _itemSo)
     //{

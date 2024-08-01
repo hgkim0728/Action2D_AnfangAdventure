@@ -99,12 +99,12 @@ public class ItemPrefab : MonoBehaviour
     /// <summary>
     /// 플레이어가 아이템을 주웠을 때
     /// </summary>
-    public void PickedItem(Transform tr)
+    public void PickedItem(Transform _playerTrs)
     {
         int itemIdx = itemSO.ItemIdx;
 
         boxCollider.isTrigger = true;   // 아이템이 플레이어한테 밀려나가는 거 방지
-        playerTrs = tr;    // 플레이어 위치 가져오기
+        playerTrs = _playerTrs;    // 플레이어 위치 가져오기
         // 플레이어를 향해 이동
         transform.position = Vector2.MoveTowards(transform.position, playerTrs.position, moveSpeed);
         //inventorySO.Items[itemIdx].GetItem();
