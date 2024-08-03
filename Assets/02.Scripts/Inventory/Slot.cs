@@ -21,6 +21,9 @@ public class Slot : MonoBehaviour, IDropHandler
         {
             // 드래그된 아이템 이미지 오브젝트
             ItemImg ev = eventData.pointerDrag.transform.GetComponent<ItemImg>();
+
+            if (ev == null) return;
+
             Item i = ev.ItemInfo;   // 드래그된 아이템 이미지 오브젝트 안에 들어있던 아이템 정보
 
             if (i == null) return;

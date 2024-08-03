@@ -6,7 +6,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour
 {
     [Serializable]
-    public class DropItems
+    public struct DropItems
     {
         public Item item;
         public float weight;
@@ -37,8 +37,8 @@ public class ItemManager : MonoBehaviour
 
     //[SerializeField] private List<Item> listItemSo = new List<Item>();
     //[SerializeField, Tooltip("인벤토리 스크립터블 오브젝트")] private InventorySO inventorySO;
-    public List<DropItems> listDropItems = new List<DropItems>();
-    [SerializeField] private List<GameObject> listItemPrefabs = new List<GameObject>();
+    public List<DropItems> listDropItems = new List<DropItems>();   // 아이템 드롭 확률 리스트
+    [SerializeField, Tooltip("아이템 프리팹 리스트")] private List<GameObject> listItemPrefabs = new List<GameObject>();
     [SerializeField, Tooltip("인벤토리 슬롯 리스트")] private List<GameObject> listInventorySlot = new List<GameObject>();
     [SerializeField, Tooltip("한 번에 생성할 아이템 프리팹의 수")] private int fillPrefabsCount = 10;
     //private int itemTypeCount;
@@ -89,6 +89,10 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 몬스터가 드랍할 아이템 랜덤 지정
+    /// </summary>
+    /// <param name="_point">몬스터 위치 정보</param>
     public void PickItem(Vector2 _point)
     {
         //if (listDropItems.Count == 0) return null;

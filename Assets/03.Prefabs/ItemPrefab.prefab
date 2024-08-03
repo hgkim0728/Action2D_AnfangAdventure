@@ -171,5 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4ee40c10fef404a9d781a84234ce34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySO: {fileID: 0}
-  moveSpeed: 2
+  moveSpeed: 1

@@ -228,8 +228,8 @@ MonoBehaviour:
   moveSpeed: 3
   trsPlayer: {fileID: 0}
   traceRange: 10
-  monsterAttackRange: 2.5
-  attackCoolTime: 2
+  monsterAttackRange: 2
+  attackCoolTime: 2.5
   monsterAtk: 1
   isAttack: 0
   monsterHp: 10
