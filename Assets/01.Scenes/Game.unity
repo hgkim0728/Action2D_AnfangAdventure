@@ -2697,7 +2697,6 @@ MonoBehaviour:
   minStateChangeTime: 2
   maxStateChangeTime: 4
   stateChangeTime: 0
-  dropTable: {fileID: 0}
   monsterState: 0
 --- !u!1 &1160213715
 GameObject:
@@ -3606,6 +3605,9 @@ MonoBehaviour:
   itemPrefab: {fileID: 8425290712632622264, guid: 4ead2f95b50574c40989d40c2e8a375f, type: 3}
   slotPrefab: {fileID: 2168131403088398983, guid: 7c2927ba03afbee4db35951a185b058d, type: 3}
   inventoryContent: {fileID: 398581521}
+  listDropItems:
+  - item: {fileID: 11400000, guid: 5edda5030200fa340a23039fde5f67be, type: 2}
+    weight: 1
   listItemPrefabs: []
   listInventorySlot: []
   fillPrefabsCount: 10

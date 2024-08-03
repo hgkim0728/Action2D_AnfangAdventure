@@ -1,9 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
+    [Serializable]
+    public class DropItems
+    {
+        public Item item;
+        public float weight;
+    }
+
     //class PlayerOwnItem
     //{
     //    private int count = 1;
@@ -29,6 +37,7 @@ public class ItemManager : MonoBehaviour
 
     //[SerializeField] private List<Item> listItemSo = new List<Item>();
     //[SerializeField, Tooltip("인벤토리 스크립터블 오브젝트")] private InventorySO inventorySO;
+    public List<DropItems> listDropItems = new List<DropItems>();
     [SerializeField] private List<GameObject> listItemPrefabs = new List<GameObject>();
     [SerializeField, Tooltip("인벤토리 슬롯 리스트")] private List<GameObject> listInventorySlot = new List<GameObject>();
     [SerializeField, Tooltip("한 번에 생성할 아이템 프리팹의 수")] private int fillPrefabsCount = 10;
@@ -80,7 +89,37 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public ItemPrefab PickItemPrefab(Item _item)
+    public void PickItem(Vector2 _point)
+    {
+        //if (listDropItems.Count == 0) return null;
+
+        float sum = 0;
+        foreach (DropItems dropItem in listDropItems)
+        {
+            sum += dropItem.weight;
+        }
+
+        float randomValue = UnityEngine.Random.value * sum;
+
+        foreach (DropItems dropItem in listDropItems)
+        {
+            randomValue -= dropItem.weight;
+
+            if (randomValue <= 0)
+            {
+                if (dropItem.item != null)
+                {
+                    PickItemPrefab(dropItem.item, _point);
+                }
+                break;
+                //return dropItem.item;
+            }
+        }
+
+        //return listDropItems[listDropItems.Count - 1].item;
+    }
+
+    public void PickItemPrefab(Item _item, Vector2 _point)
     {
         int itemPreIdx = 0; // 리스트에 있는 아이템 프리팹 체크용
 
@@ -90,14 +129,19 @@ public class ItemManager : MonoBehaviour
             
             if (itemPrefab.UsePrefab == false)
             {
-                return itemPrefab;
+                itemPrefab.InsertItemInfo(_item);
+                itemPrefab.DropItem(_point);
+                break;
+                //return itemPrefab;
             }
 
             itemPreIdx++;
         }
 
         CreateItemPrefab();
-        return listItemPrefabs[itemPreIdx].GetComponent<ItemPrefab>();
+        ItemPrefab itemPre = listItemPrefabs[itemPreIdx].GetComponent<ItemPrefab>();
+        itemPre.InsertItemInfo(_item);
+        itemPre.DropItem(_point);
     }
 
     //public void PickUpItem(Item _itemSo)

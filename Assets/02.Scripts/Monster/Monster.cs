@@ -45,8 +45,8 @@ public class Monster : MonoBehaviour
     protected BoxCollider2D monsterCol;
     protected Animator anim;
 
-    // 아이템 테이블
-    [SerializeField] SOItemDropTable dropTable;
+    // 아이템 매니저
+    ItemManager itemManager;
 
     [SerializeField] MonsterState monsterState = MonsterState.Idle;
 
@@ -65,6 +65,7 @@ public class Monster : MonoBehaviour
     protected void Start()
     {
         trsPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+        itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
     }
 
     protected void SetMonsterObj()
@@ -354,12 +355,8 @@ public class Monster : MonoBehaviour
         isDie = true;
         anim.SetTrigger("Die");
 
-        // 드롭테이블에 랜덤 아이템을 정하게 하고 아이템 매니저한테 아이템 프리팹을 받아오게 할 것
-        Item dropItem = dropTable.PickItem();
-
-        if(dropItem != null)
-        {
-
-        }
+        // 랜덤으로 드랍할 아이템을 정하게 하고 아이템 매니저한테 아이템 프리팹을 받아오게 할 것
+        itemManager.PickItem(transform.position);
+        this.gameObject.SetActive(false);
     }
 }
