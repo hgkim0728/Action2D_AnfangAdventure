@@ -70,7 +70,7 @@ public class ItemManager : MonoBehaviour
             ItemPrefab sc = go.GetComponent<ItemPrefab>();
             sc.ItemPrefabIdx = i;   // 몇번째로 생성된 아이템 프리팹인지 정보 저장
 
-
+            go.SetActive(false);
         }
     }
 
@@ -133,6 +133,7 @@ public class ItemManager : MonoBehaviour
             
             if (itemPrefab.UsePrefab == false)
             {
+                go.SetActive(true);
                 itemPrefab.InsertItemInfo(_item);
                 itemPrefab.DropItem(_point);
                 break;

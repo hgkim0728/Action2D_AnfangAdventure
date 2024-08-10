@@ -21,4 +21,4 @@ MonoBehaviour:
   Stats:
   - name: str
     value: 1
-  itemCount: 4
+  itemCount: 0

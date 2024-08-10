@@ -81,7 +81,8 @@ public class ItemPrefab : MonoBehaviour
         usePrefab = false;
         //pickedUp = false;
         spriteRenderer.sprite = null;
-        //boxCollider.isTrigger = false;
+        boxCollider.isTrigger = false;
+        this.gameObject.SetActive(false);
     }
 
     /// <summary>
