@@ -67,6 +67,10 @@ public class PlayerMove : MonoBehaviour
             {
                 PlayerHit(collision.transform, collision.transform.GetComponent<Monster>().MonsterAtk);
             }
+            else if(collision.transform.tag == "Obstacle")
+            {
+                PlayerHit(collision.transform, 1);
+            }
             else if(collision.transform.tag == "Item")
             {
                 collision.gameObject.GetComponent<ItemPrefab>().PickedItem(transform);

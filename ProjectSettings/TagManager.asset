@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Item
+  - Obstacle
   layers:
   - Default
   - TransparentFX
