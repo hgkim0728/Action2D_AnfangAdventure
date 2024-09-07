@@ -223,15 +223,34 @@ public class PlayerMove : MonoBehaviour
             verticalVelocity = jumpForce;   // jumpForce만큼 수직으로 힘을 더함
             isJump = false;     // 점프 상태 해제
 
+
+            //ryu
+            //코드 위치를 여기에 두면 임의의 조건에서 한번한 실행된다.
+            //Vector3 tJumpForce = Vector3.up * jumpForce;
+            //rigid.AddForce(tJumpForce, ForceMode2D.Impulse);
+            //Debug.Log("<color='red'>Jump+++++</color>");
+
+
+
+
             // 이번이 두 번째 점프라면 jumpCount를 0으로
-            if(jumpCount == 2)
+            if (jumpCount == 2)
             {
                 jumpCount = 0;
             }
         }
 
-        // 위에서 조건에 따라 적용한 verticalVelocity 값을 리지드바디에 적용
-        rigid.velocity = new Vector2(rigid.velocity.x, verticalVelocity);
+        if (isJump || !isGround)
+        {
+            // 위에서 조건에 따라 적용한 verticalVelocity 값을 리지드바디에 적용
+            rigid.velocity = new Vector2(rigid.velocity.x, verticalVelocity);
+        }
+        
+        //ryu
+        //jumpForce = 1f;
+        //Vector3 tJumpForce = Vector3.up * jumpForce;
+        //rigid.AddForce(tJumpForce, ForceMode2D.Impulse);
+        //Debug.Log("<color='red'>Jump+++++</color>");
     }
 
     /// <summary>
