@@ -120,7 +120,7 @@ public class PlayerMove : MonoBehaviour
         //    capsuleCollider.bounds.size.y / 2 + 0.1f, LayerMask.GetMask("Ground"));
         RaycastHit2D hit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 
             0f, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
-        //Debug.DrawRay(capsuleCollider.bounds.center, Vector2.down * (capsuleCollider.bounds.size.y / 2 + 0.1f), Color.red);
+        Debug.DrawRay(capsuleCollider.bounds.center, Vector2.down * (capsuleCollider.bounds.size.y / 2 + 0.1f), Color.red);
 
         // 플레이어가 땅에 닿은 상태라면
         if (hit.transform != null)
