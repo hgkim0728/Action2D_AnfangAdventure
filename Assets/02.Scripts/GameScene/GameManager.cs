@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     // 게임
     [Space]
     [SerializeField, Tooltip("튜토리얼을 종료했는지")] bool tutorial = false;
+    [SerializeField, Tooltip("페이드 인&아웃 스크립트")] Fade fadeSc;
 
     [Space]
     [Header("UI")]
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        fadeSc = GetComponent<Fade>();
+
         // 플레이어 강화 때 그냥 함수로 만들어버리는 것도?
         hpSlider.maxValue = maxHp;  // 체력바의 최대치를 플레이어 캐릭터의 최대 체력으로
         hpSlider.value = playerHp;  // 체력바의 값을 현재 플레이어의 체력으로
@@ -55,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        //fadeSc.FadeOut();
     }
 
     void Update()
