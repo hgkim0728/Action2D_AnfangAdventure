@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +7,7 @@ public class ChangeCamera : MonoBehaviour
 {
     [SerializeField] private GameObject virtualCamera;
     [SerializeField] Fade fadeSc;
-    [SerializeField, Tooltip("¹öÃò¾ó Ä«¸Ş¶ó È°¼ºÈ­ ÈÄ ÆäÀÌµå ¾Æ¿ôÀ» ½ÃÀÛÇÒ ¶§±îÁöÀÇ ½Ã°£")] float startFadeOutTime;
+    [SerializeField, Tooltip("ë²„ì¸„ì–¼ ì¹´ë©”ë¼ í™œì„±í™” í›„ í˜ì´ë“œ ì•„ì›ƒì„ ì‹œì‘í•  ë•Œê¹Œì§€ì˜ ì‹œê°„")] float startFadeOutTime;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

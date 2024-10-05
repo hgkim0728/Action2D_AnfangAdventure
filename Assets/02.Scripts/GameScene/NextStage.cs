@@ -1,4 +1,4 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class NextStage : MonoBehaviour
 {
-    [SerializeField, Tooltip("Ãâ±¸°¡ µÉ °ÔÀÓ¿ÀºêÁ§Æ®")] private Transform exit;
-    [SerializeField, Tooltip("ÆäÀÌµå ÀÎ&¾Æ¿ô ½ºÅ©¸³Æ®")] Fade fadeSc;
+    [SerializeField, Tooltip("ì¶œêµ¬ê°€ ë  ê²Œì„ì˜¤ë¸Œì íŠ¸")] private Transform exit;
+    [SerializeField, Tooltip("í˜ì´ë“œ ì¸&ì•„ì›ƒ ìŠ¤í¬ë¦½íŠ¸")] Fade fadeSc;
 
     Transform playerTrs;
 
