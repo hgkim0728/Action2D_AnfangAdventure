@@ -13,6 +13,6 @@ public class WolfAction : Monster
     protected override void MonsterAttack()
     {
         base.MonsterAttack();
-        rigid.velocity = Vector2.right * monsterDir * monsterAttackRange * 2;
+        rigid.velocity = Vector2.right * monsterDir * monsterAttackRange;
     }
 }

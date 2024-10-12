@@ -230,7 +230,7 @@ public class Monster : MonoBehaviour
         Vector2 v = monsterCol.bounds.center;
         v.x = monsterCol.bounds.center.x + (monsterCol.bounds.size.x / 2 + 0.1f) * monsterDir;
         RaycastHit2D groundHit = Physics2D.Raycast(v, Vector2.down, monsterCol.bounds.size.y / 2 + 0.1f,
-            LayerMask.GetMask("Ground"));
+            LayerMask.GetMask("Ground", "Obstacle"));
         Debug.DrawRay(v, Vector2.down, Color.red);
 
         // 몬스터의 앞에 벽이 있거나 길이 없다면
