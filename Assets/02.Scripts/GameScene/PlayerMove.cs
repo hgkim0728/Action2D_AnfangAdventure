@@ -134,17 +134,6 @@ public class PlayerMove : MonoBehaviour
                 anim.SetBool("IsGround", true);
             }
         }
-        else
-        {
-            hit = Physics2D.BoxCast(capsuleCollider.bounds.center,
-                new Vector2(capsuleCollider.bounds.size.x - 0.1f, capsuleCollider.bounds.size.y),
-                0f, Vector2.down, 0.1f, LayerMask.GetMask("Obstacle"));
-
-            if(hit.transform != null)
-            {
-                PlayerHit(hit.transform, 1, true);
-            }
-        }
     }
 
     /// <summary>
@@ -378,26 +367,18 @@ public class PlayerMove : MonoBehaviour
         // 발사체를 발사하는 코드를 추가해야 함
     }
 
-    public void PlayerHit(Transform _trs, int _damage, bool _isObstacle = false)
+    public void PlayerHit(Transform _trs, int _damage)
     {
         GameManager.instance.PlayerHp -= _damage;
         isHit = true;
 
-        if (_isObstacle == false)
+        if (transform.position.x - _trs.transform.position.x < 0)
         {
-            if (transform.position.x - _trs.transform.position.x < 0)
-            {
-                rigid.AddForce(new Vector2(-hitImpulse, hitImpulse), ForceMode2D.Impulse);
-            }
-            else
-            {
-                rigid.AddForce(Vector2.one * hitImpulse, ForceMode2D.Impulse);
-            }
+            rigid.AddForce(new Vector2(-hitImpulse, hitImpulse), ForceMode2D.Impulse);
         }
         else
         {
-            isJump = true;
-            jumpCount = 2;
+            rigid.AddForce(Vector2.one * hitImpulse, ForceMode2D.Impulse);
         }
 
         foreach (Animator anim in listAnims)
