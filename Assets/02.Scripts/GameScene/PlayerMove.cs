@@ -36,9 +36,7 @@ public class PlayerMove : MonoBehaviour
     private bool isHit = false;     // 플레이어 피격 여부
     private bool isDie = false;     // 플레이어 생존여부
 
-    //[Space]
-    //[Header("인벤토리")]
-    //[SerializeField, Tooltip("인벤토리")] InventorySO inventorySO;
+    private bool isLock = true;     // 플레이어가 캐릭터를 조작할 수 있는 상태인지
 
     // 컴포넌트
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
@@ -80,7 +78,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (isDie == false && isHit == false)
+        if (isDie == false && isHit == false && isLock == false)
         {
             CheckGround();
             Move();

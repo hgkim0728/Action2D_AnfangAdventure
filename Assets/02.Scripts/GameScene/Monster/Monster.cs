@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    protected int hitCount = 0;   // 플레이어 공격 작동 테스트용. 끝나면 꼭 지울 것
-
     protected enum MonsterState
     {
         Idle,
@@ -14,9 +12,11 @@ public class Monster : MonoBehaviour
         Die
     }
 
+    [SerializeField, Tooltip("이 몬스터가 배치된 스테이지의 번호")] protected int stageNum;
+
     // 몬스터 이동
     [SerializeField, Tooltip("몬스터 이동속도")] protected float moveSpeed = 5.0f;
-    internal int monsterDir = 1;
+    protected int monsterDir = 1;
 
     // 전투
     [Space]
@@ -48,7 +48,7 @@ public class Monster : MonoBehaviour
     // 아이템 매니저
     ItemManager itemManager;
 
-    [SerializeField] MonsterState monsterState = MonsterState.Idle;
+    [SerializeField, Tooltip("몬스터 현재 상태")] MonsterState monsterState = MonsterState.Idle;
 
     public int MonsterAtk
     {
@@ -223,14 +223,14 @@ public class Monster : MonoBehaviour
     {
         // 몬스터의 앞에 벽이 있는지를 체크
         RaycastHit2D wallHit = Physics2D.Raycast(monsterCol.bounds.center, Vector2.right * monsterDir,
-            (monsterCol.bounds.size.x / 2 + 0.2f), LayerMask.GetMask("Ground"));
+            (monsterCol.bounds.size.x / 2 + 0.2f), LayerMask.GetMask("Ground", "Obstacle"));
         Debug.DrawRay(monsterCol.bounds.center, Vector2.right * monsterDir, Color.red);
 
         // 몬스터의 앞에 길이 있는지를 체크
         Vector2 v = monsterCol.bounds.center;
         v.x = monsterCol.bounds.center.x + (monsterCol.bounds.size.x / 2 + 0.1f) * monsterDir;
         RaycastHit2D groundHit = Physics2D.Raycast(v, Vector2.down, monsterCol.bounds.size.y / 2 + 0.1f,
-            LayerMask.GetMask("Ground", "Obstacle"));
+            LayerMask.GetMask("Ground"));
         Debug.DrawRay(v, Vector2.down, Color.red);
 
         // 몬스터의 앞에 벽이 있거나 길이 없다면
@@ -323,8 +323,6 @@ public class Monster : MonoBehaviour
     /// <param name="_damage">몬스터가 받을 데미지</param>
     public virtual void MonsterHit(int _damage)
     {
-        hitCount++; // 디버그용
-        Debug.Log("Ouch " + hitCount);
         monsterHp -= _damage;   // 플레이어의 공격력만큼 몬스터 체력 감소
         isHit = true;   // 피격 상태
         rigid.velocity = Vector2.zero;  // 이동 정지
@@ -356,7 +354,7 @@ public class Monster : MonoBehaviour
         anim.SetTrigger("Die");
 
         // 랜덤으로 드랍할 아이템을 정하게 하고 아이템 매니저한테 아이템 프리팹을 받아오게 할 것
-        itemManager.PickItem(transform.position);
+        //itemManager.PickItem(transform.position);
         this.gameObject.SetActive(false);
     }
 }

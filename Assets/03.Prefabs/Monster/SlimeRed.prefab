@@ -97,7 +97,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2978808618200810919, guid: 222c317db80c4d039cd0cc79e73b2e5a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9150943, g: 0.10704873, b: 0.10704873, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 7493891678454077562}
   - component: {fileID: 1987507999539145022}
   m_Layer: 7
-  m_Name: Slime
+  m_Name: SlimeRed
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -231,9 +231,9 @@ MonoBehaviour:
   traceRange: 10
   monsterAttackRange: 2
   attackCoolTime: 2.5
-  monsterAtk: 1
+  monsterAtk: 2
   isAttack: 0
-  monsterHp: 2
+  monsterHp: 5
   hitImpulse: 30
   isHit: 0
   isDie: 0
