@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbd88e5fa32547042ba5ed7559b004ec, type: 3}
-  m_Name: ShortDagger
+  m_Name: Potion
   m_EditorClassIdentifier: 
-  type: 0
-  itemName: ShortDagger
-  itemDescription: "\uC791\uC740 \uB2E8\uAC80. \uBAA8\uD5D8\uC744 \uC2DC\uC791\uD55C
-    \uCD08\uBCF4\uC790\uC758 \uCE5C\uAD6C."
-  itemSprite: {fileID: -4804603286184142772, guid: 8e7b58e390e042bf93061656e04e6afb, type: 3}
+  type: 2
+  itemName: RedPotion
+  itemDescription: "\uD68C\uBCF5\uD3EC\uC158"
+  itemSprite: {fileID: 21300000, guid: 030e1544e2fa04d53947261dced1405c, type: 3}
   itemIdx: 0
   Stats:
-  - name: str
-    value: 1
+  - name: Recovery
+    value: 2
   itemCount: 0

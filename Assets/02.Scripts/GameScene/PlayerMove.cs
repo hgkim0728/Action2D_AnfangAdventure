@@ -143,9 +143,17 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        // 입력된 방향키의 값과 캐릭터 이동속도를 곱해 리지드바디 velocity의 x값을 정함
-        moveDir.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
-        moveDir.y = rigid.velocity.y;   // y값은 그대로
+        if (isLock == false)
+        {
+            // 입력된 방향키의 값과 캐릭터 이동속도를 곱해 리지드바디 velocity의 x값을 정함
+            moveDir.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
+            moveDir.y = rigid.velocity.y;   // y값은 그대로
+        }
+        else
+        {
+            moveDir = Vector2.zero;
+        }
+            
         rigid.velocity = moveDir;
         Turn();
 

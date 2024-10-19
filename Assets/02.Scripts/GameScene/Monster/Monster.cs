@@ -354,7 +354,7 @@ public class Monster : MonoBehaviour
         anim.SetTrigger("Die");
 
         // 랜덤으로 드랍할 아이템을 정하게 하고 아이템 매니저한테 아이템 프리팹을 받아오게 할 것
-        //itemManager.PickItem(transform.position);
+        itemManager.PickItem(transform.position);
         this.gameObject.SetActive(false);
     }
 }
