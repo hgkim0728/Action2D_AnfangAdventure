@@ -10,12 +10,13 @@ public class Fade : MonoBehaviour
     [Space]
     [SerializeField, Tooltip("페이드 인&아웃 되는 데 걸리는 시간")] float fadeOutTime;
 
-
     private Image fadeImg;  // 패널의 이미지 컴포넌트
+    private PlayerMove playerSc;
 
     void Start()
     {
         fadeImg = fadePanel.GetComponent<Image>();
+        playerSc = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerMove>();
     }
 
     public void FadeIn(Action _action = null)
@@ -30,6 +31,7 @@ public class Fade : MonoBehaviour
 
     IEnumerator CoFadeIn(Action _action)
     {
+        if (playerSc != null) playerSc.IsLock = true;
         fadePanel.SetActive(true);  // 패널 활성화
         Color col = fadeImg.color;    // 패널 컬러 가져오기
 
@@ -63,6 +65,7 @@ public class Fade : MonoBehaviour
         }
 
         if (_action != null) _action();
+        if (playerSc != null) playerSc.IsLock = false;
 
         fadePanel.SetActive(false);  // 패널 비활성화
     }

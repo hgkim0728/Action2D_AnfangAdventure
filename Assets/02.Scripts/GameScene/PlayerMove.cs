@@ -37,6 +37,10 @@ public class PlayerMove : MonoBehaviour
     private bool isDie = false;     // 플레이어 생존여부
 
     private bool isLock = true;     // 플레이어가 캐릭터를 조작할 수 있는 상태인지
+    public bool IsLock
+    {
+        set { isLock = value; }
+    }
 
     // 컴포넌트
     private Rigidbody2D rigid;  // 플레이어 Rigidbody2D 컴포넌트
@@ -78,7 +82,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (isDie == false && isHit == false && isLock == false)
+        if (isDie == false && isHit == false)
         {
             CheckGround();
             Move();
