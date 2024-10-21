@@ -13,6 +13,11 @@ public class Slot : MonoBehaviour, IDropHandler
         set { slotIdx = value; }
     }
     [SerializeField, Tooltip("자식오브젝트로 가지고 있는 아이템 이미지 표시용 게임오브젝트")] private ItemImg itemImg;
+    public ItemImg Img
+    {
+        get { return itemImg; }
+    }
+    public bool fill = false;   // 슬롯에 아이템이 들어있는지 여부
 
     // 다른 오브젝트를 슬롯 위로 드래그하고 마우스의 버튼을 놨을 때
     public void OnDrop(PointerEventData eventData)

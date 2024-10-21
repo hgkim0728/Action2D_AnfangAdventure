@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemImg: {fileID: 7255075101363013414}
+  fill: 0
 --- !u!1 &5346463571799229289
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +184,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 0}
+  itemImg: {fileID: 2577045502145695131}
+  canvasGroup: {fileID: 4473207165776719093}
+  rect: {fileID: 19874086911203042}
+  itemCountTxt: {fileID: 8624892360318121216}
   canvas: {fileID: 0}
 --- !u!225 &4473207165776719093
 CanvasGroup:

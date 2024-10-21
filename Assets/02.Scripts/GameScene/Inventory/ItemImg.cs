@@ -18,24 +18,24 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         get { return slotIdx; }
         set { slotIdx = value; }
     }
-    private Image itemImg;  // 슬롯 안에 있는 아이템의 스프라이트
-    private CanvasGroup canvasGroup;    // 캔버스 그룹 컴포넌트
-    private RectTransform rect;     // 렉트트랜스폼 컴포넌트
-    private TMP_Text itemCountTxt;  // 소지한 아이템 개수를 표시할 텍스트
+    [SerializeField] private Image itemImg;  // 슬롯 안에 있는 아이템의 스프라이트
+    [SerializeField] private CanvasGroup canvasGroup;    // 캔버스 그룹 컴포넌트
+    [SerializeField] private RectTransform rect;     // 렉트트랜스폼 컴포넌트
+    [SerializeField] private TMP_Text itemCountTxt;  // 소지한 아이템 개수를 표시할 텍스트
     [SerializeField]private Canvas canvas;  // 캔버스
     private Transform preParent;    // 원래 아이템이 있던 슬롯을 저장할 변수
     public Transform PreParent { get { return preParent; } }
 
     private void Awake()
     {
-        itemImg = GetComponent<Image>();
-        canvasGroup = GetComponent<CanvasGroup>();
-        rect = GetComponent<RectTransform>();
+        //itemImg = GetComponent<Image>();
+        //canvasGroup = GetComponent<CanvasGroup>();
+        //rect = GetComponent<RectTransform>();
     }
 
     void Start()
     {
-        itemCountTxt = GetComponentInChildren<TMP_Text>();
+        //itemCountTxt = GetComponentInChildren<TMP_Text>();
         canvas = FindObjectOfType<Canvas>();
     }
 
