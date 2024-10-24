@@ -33,29 +33,25 @@ public class Slot : MonoBehaviour, IDropHandler
 
             if (i == null) return;
 
-            // 이 슬롯에 이미 다른 아이템이 들어있다면
-            if (itemImg.ItemInfo != null)
+            // 이 슬롯이 비어있다면
+            if (fill == false)
             {
-                // 드래그된 이미지 오브젝트에 이 슬롯에 있던 아이템의 정보를 전달
-                ev.InsertItemInfo(itemImg.ItemInfo);
-                // 이 슬롯에 있던 이미지 오브젝트에 드래그된 이미지 오브젝트의 아이템 정보를 전달
-                itemImg.InsertItemInfo(i);
-            }
-            else// 이 슬롯이 비어있는 상태라면
-            {
-                ev.ClearImg();  // 드래그된 이미지 오브젝트를 비우는 함수 실행
-                itemImg.InsertItemInfo(i);
+                //itemImg.InsertItemInfo(i);
+                //ev.ClearImg();  // 드래그된 이미지 오브젝트를 비우는 함수 실행
+                ev.PreParent.GetComponent<Slot>().fill = false;
+                fill = true;
             }
 
+            ev.PreParent.GetComponent<Slot>().itemImg = this.itemImg;
             // 이 슬롯 오브젝트를 드래그된 아이템 이미지 오브젝트의 부모 오브젝트로 하고 위치를 조정
             eventData.pointerDrag.transform.SetParent(this.transform);
             eventData.pointerDrag.transform.localPosition = Vector3.zero;
 
             // 이 슬롯 오브젝트에 있던 아이템 이미지 오브젝트를 드래그된 이미지 오브젝트가 있던 슬롯으로
-            itemImg.gameObject.transform.SetParent(ev.PreParent);
-            itemImg.gameObject.transform.localPosition = Vector3.zero;
+            this.itemImg.gameObject.transform.SetParent(ev.PreParent);
+            this.itemImg.gameObject.transform.localPosition = Vector3.zero;
 
-            itemImg = ev;
+            this.itemImg = ev;
         }
     }
 }

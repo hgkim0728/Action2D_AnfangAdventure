@@ -32,15 +32,27 @@ public class Item : ScriptableObject
 
     [Space]
     [SerializeField, Tooltip("현재 플레이어가 소지한 개수")] private int itemCount = 0;
-    public int ItemCount {  get {  return itemCount; } }
+
+    public int ItemCount
+    {  
+        get {  return itemCount; }
+        set {  itemCount = value; }
+    }
 
     public void GetItem()
     {
         itemCount++;
     }
 
-    public void UseItem()
+    public ItemType UseItem()
     {
         itemCount--;
+
+        if(itemCount < 0)
+        {
+            itemCount = 0;
+        }
+
+        return type;
     }
 }

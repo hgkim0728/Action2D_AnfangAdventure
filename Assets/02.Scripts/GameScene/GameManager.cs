@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     [Header("플레이어")]
     [SerializeField, Tooltip("플레이어 캐릭터 오브젝트")] PlayerMove player;
-    private int maxHp = 10;
+    private int maxHp;
     [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
     public int PlayerHp
     {
@@ -23,8 +23,9 @@ public class GameManager : MonoBehaviour
 
     // 게임
     [Space]
-    [SerializeField, Tooltip("튜토리얼을 종료했는지")] bool tutorial = false;
-    private Fade fadeSc;     // 페이드 인&아웃 스크립트
+    [SerializeField, Tooltip("아이템 매니저 스크립트")] private ItemManager itemManager;
+    [SerializeField, Tooltip("튜토리얼을 종료했는지")] private bool tutorial = false;
+    private string saveKey = "SavePlayerData";
 
     [Space]
     [Header("UI")]
@@ -49,10 +50,17 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        fadeSc = GetComponent<Fade>();
-
+        maxHp = playerHp;
         hpSlider.maxValue = maxHp;  // 체력바의 최대치를 플레이어 캐릭터의 최대 체력으로
         hpSlider.value = playerHp;  // 체력바의 값을 현재 플레이어의 체력으로
+    }
+
+    void Start()
+    {
+        if(PlayerPrefs.HasKey(saveKey) == false)
+        {
+            itemManager.ClearItemData();
+        }
     }
 
     void Update()
@@ -77,6 +85,13 @@ public class GameManager : MonoBehaviour
     {
         hpSlider.value = playerHp;
         hpText.text = HPTextContent();
+
+        if(inventoryPanel.activeSelf == true)
+        {
+            // 능력치 창에 현재 플레이어의 체력과 공격력 표시
+            hpAbiltyText.text = HPTextContent();
+            atkText.text = player.PlayerAtk.ToString();
+        }
     }
 
     /// <summary>
@@ -91,9 +106,6 @@ public class GameManager : MonoBehaviour
             if(inventoryPanel.activeSelf == false)
             {
                 inventoryPanel.SetActive(true); // 인벤토리 창 활성화
-                // 능력치 창에 현재 플레이어의 체력과 공격력 표시
-                hpAbiltyText.text = HPTextContent();
-                atkText.text = player.PlayerAtk.ToString();
                 Time.timeScale = 0f;    // 게임 내 시간 정지
             }
             else // 인벤토리가 열려있는 경우

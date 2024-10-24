@@ -35451,7 +35451,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1205218612}
-  playerHp: 10
+  playerHp: 20
+  itemManager: {fileID: 1777425762}
   tutorial: 0
   gameoverPanel: {fileID: 784910960}
   inventoryPanel: {fileID: 154926503}
@@ -37737,6 +37738,8 @@ MonoBehaviour:
   listDropItems:
   - item: {fileID: 11400000, guid: 5edda5030200fa340a23039fde5f67be, type: 2}
     weight: 0.5
+  - item: {fileID: 0}
+    weight: 0.2
   listItemPrefabs: []
   listInventorySlot: []
   fillPrefabsCount: 10

@@ -58,6 +58,8 @@ public class ItemManager : MonoBehaviour
             // 슬롯 게임오브젝트를 만들어 인벤토리 콘텐츠의 자식오브젝트로 둠
             GameObject go = GameObject.Instantiate(slotPrefab, inventoryContent);
             listInventorySlot.Add(go);  // 슬롯 리스트에 추가
+            go.name = $"{go.name}_{i}";
+            go.transform.GetChild(0).name = $"ItemImg_{i}";
             go.GetComponent<Slot>().SlotIdx = i;    // 슬롯 스크립트 내의 슬롯 인덱스에 몇 번째 슬롯인지 표시
         }
     }
@@ -129,7 +131,7 @@ public class ItemManager : MonoBehaviour
             if (slotSc.fill == true && itemImgSc.ItemInfo.ItemIdx == _itemSO.ItemIdx)
             {
                 itemImgSc.InsertItemInfo(_itemSO);
-                break;
+                return;
             }
         }
 
@@ -142,6 +144,17 @@ public class ItemManager : MonoBehaviour
                 slotSc.Img.InsertItemInfo(_itemSO);
                 slotSc.fill = true;
                 break;
+            }
+        }
+    }
+
+    public void ClearItemData()
+    {
+        foreach(DropItems dropItem in listDropItems)
+        {
+            if (dropItem.item != null)
+            {
+                dropItem.item.ItemCount = 0;
             }
         }
     }

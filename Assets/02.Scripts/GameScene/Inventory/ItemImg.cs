@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     [SerializeField, Tooltip("실험용, 정상 작동 확인하면 컴포넌트에서는 안 보이게")]Item itemInfo;  // 슬롯 안에 있는 아이템의 정보
     public Item ItemInfo
@@ -26,24 +26,25 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     private Transform preParent;    // 원래 아이템이 있던 슬롯을 저장할 변수
     public Transform PreParent { get { return preParent; } }
 
-    private void Awake()
-    {
-        //itemImg = GetComponent<Image>();
-        //canvasGroup = GetComponent<CanvasGroup>();
-        //rect = GetComponent<RectTransform>();
-    }
-
     void Start()
     {
-        //itemCountTxt = GetComponentInChildren<TMP_Text>();
         canvas = FindObjectOfType<Canvas>();
     }
 
     /// <summary>
     /// 슬롯 이미지 비우는 함수
     /// </summary>
-    public void ClearImg()
+    private void ClearImg()
     {
+        if (transform.parent == canvas.transform)
+        {
+            preParent.GetComponent<Slot>().fill = false;
+        }
+        else
+        {
+            transform.parent.GetComponent<Slot>().fill = false;
+        }
+
         itemImg.sprite = null;
         itemImg.color = Color.clear;
         itemCountTxt.text = null;
@@ -84,6 +85,35 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         }
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(itemInfo == null) return;
+
+        ItemType itemType = itemInfo.UseItem();
+        
+        if(itemType == ItemType.Recovery || itemType == ItemType.Enforce)
+        {
+            if (itemInfo.ItemCount <= 0)
+            {
+                ClearImg();
+            }
+        }
+
+        SetItemCountTxt();
+
+        switch(itemType)
+        {
+            case ItemType.Recovery:
+                RecoveryPlayer();
+                break;
+        }
+    }
+
+    private void RecoveryPlayer()
+    {
+        GameManager.instance.PlayerHp++;
+    }
+
     // 인벤토리의 아이템 이미지 드래그를 시작할 때
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -91,7 +121,7 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         // 슬롯이 비어있을 경우에는 return
         if (itemInfo == null) return;
 
-        preParent = transform.parent;   // 원래 부모 오브젝트인 슬롯을 저장
+        preParent = this.transform.parent;   // 원래 부모 오브젝트인 슬롯을 저장
         transform.SetParent(canvas.transform);  // 부모 오브젝트를 캔버스로
         canvasGroup.blocksRaycasts = false;
         transform.SetAsLastSibling();   // 드래그중인 이미지가 맨앞으로 나오도록

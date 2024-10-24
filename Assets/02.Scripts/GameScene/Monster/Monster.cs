@@ -171,7 +171,6 @@ public class Monster : MonoBehaviour
         switch(monsterState)
         {
             // 몬스터가 대기 상태일 경우
-            // 딱히 하는 거 없음
             case MonsterState.Idle:
                 break;
 
@@ -344,15 +343,15 @@ public class Monster : MonoBehaviour
 
         if(isDie == false && monsterHp <= 0)
         {
-            Invoke("MonsterDie", 0.2f);
+            if(isDie == true) return;
+            isDie = true;
+            anim.SetTrigger("Die");
+            Invoke("MonsterDie", 1.0f);
         }
     }
 
-    void MonsterDie()
+    protected void MonsterDie()
     {
-        isDie = true;
-        anim.SetTrigger("Die");
-
         // 랜덤으로 드랍할 아이템을 정하게 하고 아이템 매니저한테 아이템 프리팹을 받아오게 할 것
         itemManager.PickItem(transform.position);
         this.gameObject.SetActive(false);
