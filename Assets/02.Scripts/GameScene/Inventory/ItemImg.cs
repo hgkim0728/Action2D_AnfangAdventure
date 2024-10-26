@@ -89,10 +89,16 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     {
         if(itemInfo == null) return;
 
-        ItemType itemType = itemInfo.UseItem();
-        
-        if(itemType == ItemType.Recovery || itemType == ItemType.Enforce)
+        if(itemInfo.Type == ItemType.Recovery &&
+            GameManager.instance.PlayerHp == GameManager.instance.MaxHp)
         {
+            return;
+        }
+        
+        if(itemInfo.Type == ItemType.Recovery || itemInfo.Type == ItemType.Enforce)
+        {
+            itemInfo.UseItem();
+            
             if (itemInfo.ItemCount <= 0)
             {
                 ClearImg();
@@ -101,7 +107,7 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
         SetItemCountTxt();
 
-        switch(itemType)
+        switch(itemInfo.Type)
         {
             case ItemType.Recovery:
                 RecoveryPlayer();

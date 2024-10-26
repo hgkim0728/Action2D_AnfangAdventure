@@ -44,15 +44,16 @@ public class Item : ScriptableObject
         itemCount++;
     }
 
-    public ItemType UseItem()
+    public void UseItem()
     {
-        itemCount--;
-
-        if(itemCount < 0)
+        if (type == ItemType.Recovery || type == ItemType.Enforce)
         {
-            itemCount = 0;
-        }
+            itemCount--;
 
-        return type;
+            if (itemCount < 0)
+            {
+                itemCount = 0;
+            }
+        }
     }
 }

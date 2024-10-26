@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("플레이어")]
     [SerializeField, Tooltip("플레이어 캐릭터 오브젝트")] PlayerMove player;
     private int maxHp;
+    public int MaxHp {  get { return maxHp; } }
     [SerializeField, Tooltip("플레이어 캐릭터 체력")] private int playerHp = 10;
     public int PlayerHp
     {
