@@ -99,13 +99,11 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         {
             itemInfo.UseItem();
             
-            if (itemInfo.ItemCount <= 0)
-            {
-                ClearImg();
-            }
+            //if (itemInfo.ItemCount <= 0)
+            //{
+            //    ClearImg();
+            //}
         }
-
-        SetItemCountTxt();
 
         switch(itemInfo.Type)
         {
@@ -113,6 +111,8 @@ public class ItemImg : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
                 RecoveryPlayer();
                 break;
         }
+
+        SetItemCountTxt();
     }
 
     private void RecoveryPlayer()
