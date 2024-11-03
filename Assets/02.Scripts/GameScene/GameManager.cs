@@ -25,14 +25,26 @@ public class GameManager : MonoBehaviour
     // 게임
     [Space]
     [SerializeField, Tooltip("아이템 매니저 스크립트")] private ItemManager itemManager;
-    [SerializeField, Tooltip("튜토리얼을 종료했는지")] private bool tutorial = false;
+    private bool gameClear = false;
+    public bool GameClear
+    {
+        set
+        { 
+            gameClear = value;
+
+            if (value == true)
+            {
+                gameClearPanel.SetActive(true);
+            }
+        }
+    }
     private string saveKey = "SavePlayerData";
 
     [Space]
     [Header("UI")]
-    [Space]
     [SerializeField, Tooltip("게임오버 패널")] GameObject gameoverPanel;
     [SerializeField, Tooltip("인벤토리 패널")] GameObject inventoryPanel;
+    [SerializeField, Tooltip("게임클리어 패널")] GameObject gameClearPanel;
     [SerializeField, Tooltip("플레이어 체력바")] Slider hpSlider;
     [SerializeField, Tooltip("플레이어 체력바 텍스트")] TMP_Text hpText;
     [SerializeField, Tooltip("능력치 창의 플레이어 체력 텍스트")] TMP_Text hpAbiltyText;
@@ -68,6 +80,7 @@ public class GameManager : MonoBehaviour
     {
         SetHPBar();
         InventoryKey();
+        PressEnter();
     }
 
     /// <summary>
@@ -114,6 +127,14 @@ public class GameManager : MonoBehaviour
                 inventoryPanel.SetActive(false);    // 인벤토리 창 비활성화
                 Time.timeScale = 1f;    // 게임 내 시간 재생
             }
+        }
+    }
+
+    private void PressEnter()
+    {
+        if(gameClear == true && Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
